@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import HeroCard from "components/Cards/HeroCard";
 import { useAddress } from "@thirdweb-dev/react";
+import { useHistory } from "react-router-dom";
 
 export interface SectionHero2Props {
   children?: React.ReactNode;
@@ -10,6 +11,7 @@ export interface SectionHero2Props {
 
 const SectionHero2: FC<SectionHero2Props> = ({ className = "", children }) => {
   const address = useAddress();
+  const history = useHistory();
   return (
     <div
       className={`nc-SectionHero2 flex flex-col-reverse lg:flex-col relative ${className}`}
@@ -24,13 +26,29 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "", children }) => {
             Creative your NTFs and sell them
           </span>
           <div className="space-x-4">
-            <ButtonPrimary>Explore</ButtonPrimary>
+            <ButtonPrimary
+              onClick={() => {
+                history.push("/page-search");
+              }}
+            >
+              Explore
+            </ButtonPrimary>
             {!address ? (
-              <button className="nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 py-3 sm:px-8  ttnc-ButtonSecondary border bg-white border-neutral-200 text-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 flex-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000 dark:focus:ring-offset-0 ">
+              <button
+                className="nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 py-3 sm:px-8  ttnc-ButtonSecondary border bg-white border-neutral-200 text-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 flex-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000 dark:focus:ring-offset-0 "
+                onClick={() => {
+                  history.push("/connect-wallet");
+                }}
+              >
                 Connect Wallet
               </button>
             ) : (
-              <button className="nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 py-3 sm:px-8  ttnc-ButtonSecondary border bg-white border-neutral-200 text-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 flex-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000 dark:focus:ring-offset-0 ">
+              <button
+                className="nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 py-3 sm:px-8  ttnc-ButtonSecondary border bg-white border-neutral-200 text-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 flex-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000 dark:focus:ring-offset-0 "
+                onClick={() => {
+                  history.push("/page-upload-item");
+                }}
+              >
                 Create your NFT
               </button>
             )}

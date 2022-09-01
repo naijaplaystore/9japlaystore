@@ -110,7 +110,10 @@ const HeroCard: FC<HeroCardProps> = ({
               </div>
             </div>
 
-            <Link to={"/nft-detailt"} className="absolute inset-0 "></Link>
+            <Link
+              to={`/nft-detailt/${listing.id.toNumber()}`}
+              className="absolute inset-0 "
+            ></Link>
           </div>
         ))
       )}
