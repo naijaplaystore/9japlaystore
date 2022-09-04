@@ -118,10 +118,14 @@ const ListNFT: FC<ListNFTProps> = ({ className = "" }) => {
       toast.dismiss();
       setLoading(false);
       toast.success("Listing created");
-      history.push("/");
+      setTimeout(() => {
+        history.push("/");
+      }, 500);
     } catch (error) {
       setLoading(false);
-      console.error(error);
+      toast.dismiss();
+
+      toast.error("Error occurred!");
     }
   };
 

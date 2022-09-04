@@ -13,6 +13,7 @@ import { COLLECTION_ID } from "../key";
 import {
   useNetworkMismatch,
   useNetwork,
+  useSigner,
   useAddress,
   ChainId,
 } from "@thirdweb-dev/react";

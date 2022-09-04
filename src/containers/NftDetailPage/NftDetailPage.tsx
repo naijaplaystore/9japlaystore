@@ -16,11 +16,18 @@ import ItemTypeVideoIcon from "components/ItemTypeVideoIcon";
 import LikeButton from "components/LikeButton";
 import AccordionInfo from "./AccordionInfo";
 import SectionBecomeAnAuthor from "components/SectionBecomeAnAuthor/SectionBecomeAnAuthor";
-import { useParams } from "react-router-dom";
-import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+import { useHistory, useParams } from "react-router-dom";
 import { MARKETPLACE_ID } from "key";
-import { useListing, useMarketplace } from "@thirdweb-dev/react";
-import { BigNumber } from "ethers";
+import {
+  useListing,
+  useMarketplace,
+  useAddress,
+  useNetwork,
+  useNetworkMismatch,
+  ChainId,
+} from "@thirdweb-dev/react";
+import DetailCard from "components/Cards/DetailCard";
+import toast from "react-hot-toast";
 
 export interface NftDetailPageProps {
   className?: string;
@@ -31,20 +38,50 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
   className = "",
   isPreviewMode,
 }) => {
+  const [isLoading, setIsLoading] = React.useState(false);
   const { tokenId }: any = useParams();
+  const history = useHistory();
 
-  // Connect your marketplace smart contract here (replace this address)
-  const marketplace = useMarketplace(
-    MARKETPLACE_ID // Your marketplace contract address here
-  );
+  const marketplace = useMarketplace(MARKETPLACE_ID);
+  const address = useAddress();
+  const isOnWrongNetwork = useNetworkMismatch();
+  const [, switchNetwork] = useNetwork();
 
   const { data: listings, isLoading: loadingListings } = useListing(
     marketplace,
     tokenId
   );
 
-  console.log(listings);
-  // console.log(listings);
+  const buyNFT = async (id: any) => {
+    if (isOnWrongNetwork) {
+      switchNetwork && switchNetwork(ChainId.Mumbai);
+      return;
+    }
+
+    if (!address) {
+      toast.error("Please connect your wallet");
+      setTimeout(() => {
+        history.push("/connect-wallet");
+      }, 500);
+    } else {
+      setIsLoading(true);
+
+      try {
+        await marketplace?.buyoutListing(id, 1);
+        await marketplace?.direct.cancelListing(id);
+        setIsLoading(false);
+        toast.dismiss();
+        history.push("/");
+        toast.success("NFT purchased successfully");
+      } catch (err) {
+        toast.dismiss();
+
+        toast.error("An error occurred");
+      }
+    }
+  };
+
+  isLoading && toast.loading("Transaction is processing...");
 
   const renderSection1 = () => {
     return (
@@ -116,46 +153,55 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
                   </span>
                 </div>
 
-                <span className="text-sm text-neutral-500 dark:text-neutral-400 ml-5 mt-2 sm:mt-0 sm:ml-10">
+                {/* <span className="text-sm text-neutral-500 dark:text-neutral-400 ml-5 mt-2 sm:mt-0 sm:ml-10">
                   [96 in stock]
-                </span>
+                </span> */}
               </div>
 
               <div className="mt-8 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-                <ButtonPrimary href={"/connect-wallet"} className="flex-1">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M18.04 13.55C17.62 13.96 17.38 14.55 17.44 15.18C17.53 16.26 18.52 17.05 19.6 17.05H21.5V18.24C21.5 20.31 19.81 22 17.74 22H6.26C4.19 22 2.5 20.31 2.5 18.24V11.51C2.5 9.44001 4.19 7.75 6.26 7.75H17.74C19.81 7.75 21.5 9.44001 21.5 11.51V12.95H19.48C18.92 12.95 18.41 13.17 18.04 13.55Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M2.5 12.4101V7.8401C2.5 6.6501 3.23 5.59006 4.34 5.17006L12.28 2.17006C13.52 1.70006 14.85 2.62009 14.85 3.95009V7.75008"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M22.5588 13.9702V16.0302C22.5588 16.5802 22.1188 17.0302 21.5588 17.0502H19.5988C18.5188 17.0502 17.5288 16.2602 17.4388 15.1802C17.3788 14.5502 17.6188 13.9602 18.0388 13.5502C18.4088 13.1702 18.9188 12.9502 19.4788 12.9502H21.5588C22.1188 12.9702 22.5588 13.4202 22.5588 13.9702Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M7 12H14"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                {address !== listings?.sellerAddress && (
+                  <ButtonPrimary
+                    onClick={() => {
+                      buyNFT(listings?.id);
+                    }}
+                    className="flex-1"
+                    disabled={isLoading}
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M18.04 13.55C17.62 13.96 17.38 14.55 17.44 15.18C17.53 16.26 18.52 17.05 19.6 17.05H21.5V18.24C21.5 20.31 19.81 22 17.74 22H6.26C4.19 22 2.5 20.31 2.5 18.24V11.51C2.5 9.44001 4.19 7.75 6.26 7.75H17.74C19.81 7.75 21.5 9.44001 21.5 11.51V12.95H19.48C18.92 12.95 18.41 13.17 18.04 13.55Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M2.5 12.4101V7.8401C2.5 6.6501 3.23 5.59006 4.34 5.17006L12.28 2.17006C13.52 1.70006 14.85 2.62009 14.85 3.95009V7.75008"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M22.5588 13.9702V16.0302C22.5588 16.5802 22.1188 17.0302 21.5588 17.0502H19.5988C18.5188 17.0502 17.5288 16.2602 17.4388 15.1802C17.3788 14.5502 17.6188 13.9602 18.0388 13.5502C18.4088 13.1702 18.9188 12.9502 19.4788 12.9502H21.5588C22.1188 12.9702 22.5588 13.4202 22.5588 13.9702Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M7 12H14"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
 
-                  <span className="ml-2.5">Place a bid</span>
-                </ButtonPrimary>
+                    <span className="ml-2.5">Buy</span>
+                  </ButtonPrimary>
+                )}
+
                 <ButtonSecondary href={"/connect-wallet"} className="flex-1">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path
@@ -215,15 +261,18 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
           <div className="space-y-8 lg:space-y-10">
             {/* HEADING */}
             <div className="relative">
-              <NcImage
+              {/* <NcImage
                 src={nftsLargeImgs[0]}
                 containerClassName="aspect-w-11 aspect-h-12 rounded-3xl overflow-hidden"
+              /> */}
+              <DetailCard
+                image={listings?.asset.image}
+                audio={listings?.asset.audio}
               />
               {/* META TYPE */}
-              <ItemTypeVideoIcon className="absolute left-3 top-3  w-8 h-8 md:w-10 md:h-10" />
 
               {/* META FAVORITES */}
-              <LikeButton className="absolute right-3 top-3 " />
+              {/* <LikeButton className="absolute right-3 top-3 " /> */}
             </div>
 
             <AccordionInfo
