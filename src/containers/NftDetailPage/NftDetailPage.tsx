@@ -74,7 +74,8 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
         history.push("/");
         toast.success("NFT purchased successfully");
       } catch (err) {
-        toast.dismiss();
+       setIsLoading(false);
+      toast.dismiss();
 
         toast.error("An error occurred");
       }

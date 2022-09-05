@@ -10,6 +10,8 @@ import SocialsList from "shared/SocialsList/SocialsList";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import SwitchDarkMode from "shared/SwitchDarkMode/SwitchDarkMode";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
+import { useAddress } from "@thirdweb-dev/react";
+import { Link } from "react-router-dom";
 
 export interface NavMobileProps {
   data?: NavItemType[];
@@ -20,6 +22,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
   data = NAVIGATION_DEMO_2,
   onClickClose,
 }) => {
+  const address = useAddress();
   const _renderMenuChild = (item: NavItemType) => {
     return (
       <ul className="nav-mobile-sub-menu pl-6 pb-1 text-base">
@@ -137,12 +140,13 @@ const NavMobile: React.FC<NavMobileProps> = ({
         {data.map(_renderItem)}
       </ul>
       <div className="flex items-center justify-between py-6 px-5 space-x-2">
-        <ButtonPrimary href={"/page-upload-item"} className="!px-10">
-          Create
-        </ButtonPrimary>
-        <ButtonSecondary href={"/connect-wallet"} className="flex-1">
-          Connect Wallet
-        </ButtonSecondary>
+        {!address && (
+          <Link to={"/connect-wallet"}>
+            <ButtonPrimary sizeClass="px-4 py-2 sm:px-5">
+              Connect Wallet
+            </ButtonPrimary>
+          </Link>
+        )}
       </div>
     </div>
   );
