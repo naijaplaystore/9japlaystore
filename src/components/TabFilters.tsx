@@ -888,8 +888,8 @@ const TabFilters = () => {
       <div className="hidden lg:flex space-x-4">
         {renderTabsPriceRage()}
         {renderTabsTypeOfSales()}
-        {renderTabsFileTypes()}
-        {renderTabsSortOrder()}
+        {/* {renderTabsFileTypes()} */}
+        {/* {renderTabsSortOrder()} */}
         {renderTabVerifiedCreator()}
       </div>
 

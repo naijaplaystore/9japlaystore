@@ -74,8 +74,8 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
         history.push("/");
         toast.success("NFT purchased successfully");
       } catch (err) {
-       setIsLoading(false);
-      toast.dismiss();
+        setIsLoading(false);
+        toast.dismiss();
 
         toast.error("An error occurred");
       }
@@ -83,6 +83,7 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
   };
 
   isLoading && toast.loading("Transaction is processing...");
+  tokenId !== listings?.id && history.push("/list-NFT");
 
   const renderSection1 = () => {
     return (

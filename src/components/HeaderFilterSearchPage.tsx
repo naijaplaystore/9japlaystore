@@ -19,7 +19,7 @@ const HeaderFilterSearchPage: FC<HeaderFilterSearchPageProps> = ({
   return (
     <div className={`flex flex-col relative ${className}`}>
       <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-6 lg:space-y-0 lg:space-x-2 ">
-        <Nav
+        {/* <Nav
           className="sm:space-x-2"
           containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base hiddenScrollbar"
         >
@@ -34,7 +34,7 @@ const HeaderFilterSearchPage: FC<HeaderFilterSearchPageProps> = ({
               </NavItem>
             )
           )}
-        </Nav>
+        </Nav> */}
         <span className="block flex-shrink-0 text-right">
           <ButtonPrimary
             className="w-auto !pr-16"
