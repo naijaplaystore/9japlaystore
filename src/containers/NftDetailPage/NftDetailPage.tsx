@@ -18,6 +18,8 @@ import AccordionInfo from "./AccordionInfo";
 import SectionBecomeAnAuthor from "components/SectionBecomeAnAuthor/SectionBecomeAnAuthor";
 import { useHistory, useParams } from "react-router-dom";
 import { MARKETPLACE_ID } from "key";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import {
   useListing,
   useMarketplace,
@@ -83,13 +85,20 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
   };
 
   isLoading && toast.loading("Transaction is processing...");
-  tokenId !== listings?.id && history.push("/list-NFT");
+  // tokenId !== listings?.id && history.push("/list-NFT");
 
   const renderSection1 = () => {
     return (
       <>
         {loadingListings ? (
-          <div>loading.....</div>
+          <SkeletonTheme
+            enableAnimation={true}
+            baseColor="#202020"
+            highlightColor="#444"
+          >
+            <Skeleton count={1} />
+            <Skeleton count={1} className="h-80 rounded-full" />
+          </SkeletonTheme>
         ) : (
           <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
             {/* ---------- 1 ----------  */}
