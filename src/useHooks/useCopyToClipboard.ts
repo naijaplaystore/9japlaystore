@@ -27,4 +27,4 @@ function useCopyToClipboard(): [CopiedValue, CopyFn] {
   return [copiedText, copy]
 }
 
-export default useCopyToClipboard
+export default useCopyToClipboard;

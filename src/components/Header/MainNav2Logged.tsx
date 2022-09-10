@@ -9,6 +9,7 @@ import ButtonPrimary from "shared/Button/ButtonPrimary";
 import Navigation from "shared/Navigation/Navigation";
 import { useAddress } from "@thirdweb-dev/react";
 import { Link } from "react-router-dom";
+import useFetch from "../../useHooks/useFetch";
 
 export interface MainNav2LoggedProps {}
 
@@ -16,6 +17,14 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
   //Connect your wallet
   const address = useAddress();
 
+  interface Post {
+    url: string;
+  }
+
+  // Hooks init
+  const url = `https://naijaplaystore.pythonanywhere.com/create-account/${address}`;
+  const { data, error } = useFetch<Post[]>(url);
+  console.log(data);
   return (
     <div className={`nc-MainNav2Logged relative z-10 ${"onTop "}`}>
       <div className="container py-5 relative flex justify-between items-center space-x-4 xl:space-x-8">

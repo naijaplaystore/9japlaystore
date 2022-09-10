@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import Heading from "components/Heading/Heading";
 import NcImage from "shared/NcImage/NcImage";
 import HIW1img from "images/HIW1img.png";
 import HIW2img from "images/HIW2img.png";
@@ -52,6 +53,12 @@ const SectionHowItWork: FC<SectionHowItWorkProps> = ({
       className={`nc-SectionHowItWork  ${className}`}
       data-nc-id="SectionHowItWork"
     >
+      <Heading
+        desc={"Steps to earn money"}
+        className="mb-14 text-neutral-900 dark:text-neutral-50"
+      >
+        How it works
+      </Heading>
       <div className="relative grid sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-16 xl:gap-20">
         <img
           className="hidden md:block absolute inset-x-0 -top-1"
