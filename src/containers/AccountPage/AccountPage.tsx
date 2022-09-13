@@ -7,18 +7,44 @@ import Textarea from "shared/Textarea/Textarea";
 import { Helmet } from "react-helmet";
 import useCopyToClipboard from "../../useHooks/useCopyToClipboard";
 import { useAddress } from "@thirdweb-dev/react";
+import axios from "axios";
+import { profile } from "console";
 
 export interface AccountPageProps {
   className?: string;
 }
 
+interface ProfileType {
+  address_id: string;
+  profile_image: any;
+  username: string;
+  email: string;
+  bio: string;
+  websiteURL: string;
+  twitterURL?: string;
+  facebookURL?: string;
+  instagramURL?: string;
+}
+
 const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
+  // thirdweb init
+  const address: string | any = useAddress();
+
   // Hooks init
   const [value, copy] = useCopyToClipboard();
-  const [isCopied, setIsCopied] = useState<boolean>(false);
-
-  // thirdweb init
-  const address: any = useAddress();
+  const [isCopied, setIsCopied] = useState<boolean>(true);
+  const [profileUrl, setProfileUrl] = useState<any>(null);
+  const [profileData, setProfileData] = useState<ProfileType>({
+    address_id: "0xdb70780a6ed17c8dddf19eb4EDf8016C0aC93f09",
+    profile_image: profileUrl,
+    username: "",
+    email: "",
+    bio: "",
+    websiteURL: "",
+    twitterURL: "",
+    facebookURL: "",
+    instagramURL: "",
+  });
 
   // Fuction to copy address
   const copyAddress = () => {
@@ -29,8 +55,34 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     }, 3000);
     setIsCopied(false);
   };
-  console.log(value);
 
+  // Function to handle input change
+  const url: string = `https://naijaplaystore.pythonanywhere.com/update/${address}`;
+  const updateProfile = () => {
+    axios
+      .put(url, profileData)
+      .then((res) => {
+        console.log(res);
+        return;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  console.log(profileUrl);
+  // Profile image upload
+  const onProfileUpload = (e: any) => {
+    const file = e.target.files[0];
+    // const result = await sdk.storage.upload(file);
+    // const url = `https://gateway.thirdweb.dev/ipfs/${result.uris[0].slice(7)}`;
+
+    setProfileUrl(file.name);
+    // setFileUrl(url);
+    // toast.dismiss();
+
+    // toast.success("file uploaded sucessful!");
+  };
   return (
     <div className={`nc-AccountPage ${className}`} data-nc-id="AccountPage">
       <Helmet>
@@ -75,6 +127,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                 <input
                   type="file"
                   className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={onProfileUpload}
                 />
               </div>
             </div>
@@ -82,7 +135,16 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
               {/* ---- */}
               <div>
                 <Label>Username</Label>
-                <Input className="mt-1.5" defaultValue="Eden Tuan" />
+                <Input
+                  className="mt-1.5"
+                  defaultValue="Eden Tuan"
+                  onChange={(e) => {
+                    setProfileData({
+                      ...profileData,
+                      username: e.target.value,
+                    });
+                  }}
+                />
               </div>
 
               {/* ---- */}
@@ -95,6 +157,9 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                   <Input
                     className="!rounded-l-none"
                     placeholder="example@email.com"
+                    onChange={(e) => {
+                      setProfileData({ ...profileData, email: e.target.value });
+                    }}
                   />
                 </div>
               </div>
@@ -106,6 +171,9 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                   rows={5}
                   className="mt-1.5"
                   placeholder="Something about yourself in a few word."
+                  onChange={(e) => {
+                    setProfileData({ ...profileData, bio: e.target.value });
+                  }}
                 />
               </div>
 
@@ -119,6 +187,12 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                   <Input
                     className="!rounded-l-none"
                     placeholder="yourwebsite.com"
+                    onChange={(e) => {
+                      setProfileData({
+                        ...profileData,
+                        websiteURL: e.target.value,
+                      });
+                    }}
                   />
                 </div>
               </div>
@@ -135,6 +209,12 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                       className="!rounded-l-none"
                       placeholder="yourfacebook"
                       sizeClass="h-11 px-4 pl-2 pr-3"
+                      onChange={(e) => {
+                        setProfileData({
+                          ...profileData,
+                          facebookURL: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                 </div>
@@ -148,19 +228,31 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                       className="!rounded-l-none"
                       placeholder="yourtwitter"
                       sizeClass="h-11 px-4 pl-2 pr-3"
+                      onChange={(e) => {
+                        setProfileData({
+                          ...profileData,
+                          twitterURL: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                 </div>
                 <div>
-                  <Label>Telegram</Label>
+                  <Label>Instagram</Label>
                   <div className="mt-1.5 flex">
                     <span className="inline-flex items-center px-2.5 rounded-l-2xl border border-r-0 border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 text-sm">
                       <i className="text-2xl lab la-telegram-plane"></i>
                     </span>
                     <Input
                       className="!rounded-l-none"
-                      placeholder="yourtelegram"
+                      placeholder="Instagram"
                       sizeClass="h-11 px-4 pl-2 pr-3"
+                      onChange={(e) => {
+                        setProfileData({
+                          ...profileData,
+                          instagramURL: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                 </div>
@@ -220,7 +312,9 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
 
               {/* ---- */}
               <div className="pt-2">
-                <ButtonPrimary className="w-full">Update profile</ButtonPrimary>
+                <ButtonPrimary className="w-full" onClick={updateProfile}>
+                  Update profile
+                </ButtonPrimary>
               </div>
             </div>
           </div>
