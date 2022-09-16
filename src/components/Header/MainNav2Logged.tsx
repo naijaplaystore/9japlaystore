@@ -21,7 +21,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
   // Hooks init
   const url = `https://naijaplaystore.pythonanywhere.com/create-account/${address}`;
 
-  React.useEffect(() => {
+  const saveAddress = () => {
     axios
       .get(url)
       .then((res) => {
@@ -31,7 +31,8 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  };
+  saveAddress();
 
   return (
     <div className={`nc-MainNav2Logged relative z-10 ${"onTop "}`}>

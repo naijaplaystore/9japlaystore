@@ -21,6 +21,7 @@ export interface PageConnectWalletProps {
 
 const PageConnectWallet: FC<PageConnectWalletProps> = ({ className = "" }) => {
   const [showModal, setShowModal] = useState(false);
+
   const plans = [
     {
       name: "Metamask",

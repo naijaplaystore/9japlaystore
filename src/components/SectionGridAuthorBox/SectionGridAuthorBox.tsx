@@ -9,13 +9,20 @@ import ButtonPrimary from "shared/Button/ButtonPrimary";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
 import Nav from "shared/Nav/Nav";
 import SortOrderFilter from "./SortOrderFilter";
-
+import axios from "axios";
 export interface SectionGridAuthorBoxProps {
   className?: string;
   sectionStyle?: "style1" | "style2";
   gridClassName?: string;
   boxCard?: "box1" | "box2" | "box3" | "box4";
   data?: any[];
+}
+
+interface Users {
+  id?: number;
+  username?: string;
+  verifield?: boolean;
+  address_id?: any;
 }
 
 const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
@@ -26,6 +33,19 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
   data = Array.from("11111111"),
 }) => {
   const [tabActive, setTabActive] = React.useState("Popular");
+  const [users, setUsers] = React.useState<Users[]>([]);
+
+  React.useEffect(() => {
+    const getAllUsers = async () => {
+      const response = await axios.get(
+        "https://naijaplaystore.pythonanywhere.com/all-profiles/"
+      );
+      setUsers(response.data);
+    };
+    getAllUsers();
+  }, [setUsers]);
+
+  console.log(users);
 
   const renderCard = (index: number) => {
     switch (boxCard) {
@@ -40,13 +60,6 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
         return <CardAuthorBox2 key={index} />;
       case "box3":
         return <CardAuthorBox3 key={index} />;
-      case "box4":
-        return (
-          <CardAuthorBox4
-            authorIndex={index < 3 ? index + 1 : undefined}
-            key={index}
-          />
-        );
 
       default:
         return null;
@@ -88,13 +101,13 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
           isCenter
           desc=""
         >
-          Top List Creators.
+          Top Artist
         </Heading>
         <Nav
           className="p-1 bg-white dark:bg-neutral-800 rounded-full shadow-lg"
           containerClassName="mb-12 lg:mb-14 relative flex justify-center w-full text-sm md:text-base"
         >
-          {[
+          {/* {[
             {
               name: "Popular",
               icon: ` <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -138,7 +151,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
                 <span>{item.name}</span>
               </div>
             </NavItem2>
-          ))}
+          ))} */}
         </Nav>
       </div>
     );
@@ -152,6 +165,15 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
       {sectionStyle === "style1" ? renderHeading1() : renderHeading2()}
       <div className={`grid gap-4 md:gap-7 ${gridClassName}`}>
         {data.map((_, index) => renderCard(index))}
+        {users.map((user, index) => (
+          <CardAuthorBox4
+            authorIndex={index < 3 ? index + 1 : undefined}
+            key={index}
+            username={user.username}
+            verified={user.verifield}
+            address={user.address_id}
+          />
+        ))}
       </div>
       <div className="mt-16 flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-5">
         <ButtonSecondary>Show me more </ButtonSecondary>

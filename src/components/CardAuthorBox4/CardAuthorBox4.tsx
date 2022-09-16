@@ -11,12 +11,20 @@ export interface CardAuthorBox4Props {
   className?: string;
   following?: boolean;
   authorIndex?: number;
+  username?: string;
+  profileImage?: string;
+  verified?: boolean;
+  address?: string;
 }
 
 const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
   className = "",
   following,
   authorIndex,
+  username,
+  address,
+  profileImage,
+  verified,
 }) => {
   return (
     <div
@@ -24,7 +32,7 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
       data-nc-id="CardAuthorBox4"
     >
       <div className="relative flex-shrink-0 h-36">
-        {authorIndex && (
+        {/* {authorIndex && (
           <Badge
             className="absolute top-2 left-3 !font-semibold"
             name={
@@ -34,7 +42,7 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
               authorIndex === 1 ? "red" : authorIndex === 2 ? "green" : "yellow"
             }
           />
-        )}
+        )} */}
 
         <NcImage
           containerClassName="flex h-full w-full flex-shrink-0 rounded-3xl overflow-hidden"
@@ -71,16 +79,11 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
         <div className="mt-2.5 flex items-start items-center justify-between">
           <div>
             <h2 className={`text-base font-medium flex items-center`}>
-              <span className="">
-                {personNames[Math.floor(Math.random() * personNames.length)]}
-              </span>
-              <VerifyIcon />
+              <span className="">{username}</span>
+              {verified && <VerifyIcon />}
             </h2>
             <span className={`block mt-0.5 text-sm `}>
-              <span className="font-medium">12.321</span>
-              <span className={`ml-1.5 text-neutral-500 dark:text-neutral-400`}>
-                ETH
-              </span>
+              {address?.slice(0, 6) + "..." + address?.slice(-4)}
             </span>
           </div>
           <FollowButton

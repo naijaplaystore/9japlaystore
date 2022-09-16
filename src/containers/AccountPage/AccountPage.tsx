@@ -9,41 +9,43 @@ import useCopyToClipboard from "../../useHooks/useCopyToClipboard";
 import { useAddress } from "@thirdweb-dev/react";
 import axios from "axios";
 import { profile } from "console";
+import toast from "react-hot-toast";
+import SuccessMark from "shared/SuccessMark/SuccessMark";
 
 export interface AccountPageProps {
   className?: string;
 }
 
-interface ProfileType {
-  address_id: string;
-  profile_image: any;
-  username: string;
-  email: string;
-  bio: string;
-  websiteURL: string;
-  twitterURL?: string;
-  facebookURL?: string;
-  instagramURL?: string;
+export interface ProfileType {
+  address_id?: string;
+  profile_image?: any;
+  username?: string;
+  email?: string;
+  bio?: string;
+  website_link?: string;
+  twitter?: string;
+  instagram?: string;
+  verifield?: boolean;
 }
 
 const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   // thirdweb init
-  const address: string | any = useAddress();
-
+  const address = useAddress() as string;
   // Hooks init
   const [value, copy] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState<boolean>(true);
   const [profileUrl, setProfileUrl] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const [profileData, setProfileData] = useState<ProfileType>({
-    address_id: "0xdb70780a6ed17c8dddf19eb4EDf8016C0aC93f09",
+    address_id: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    bio: "",
     profile_image: profileUrl,
     username: "",
     email: "",
-    bio: "",
-    websiteURL: "",
-    twitterURL: "",
-    facebookURL: "",
-    instagramURL: "",
+    website_link: "",
+    twitter: "",
+    instagram: "",
   });
 
   // Fuction to copy address
@@ -56,19 +58,27 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     setIsCopied(false);
   };
 
+  // Function to get data
+
   // Function to handle input change
   const url: string = `https://naijaplaystore.pythonanywhere.com/update/${address}`;
   const updateProfile = () => {
+    setLoading(true);
     axios
       .put(url, profileData)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+        toast.dismiss();
+        toast.success("Your Profile is uploaded sucessful");
+        setLoading(false);
         return;
       })
       .catch((err) => {
         console.error(err);
       });
   };
+
+  loading && toast.loading("Loading.......");
 
   console.log(profileUrl);
   // Profile image upload
@@ -190,7 +200,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                     onChange={(e) => {
                       setProfileData({
                         ...profileData,
-                        websiteURL: e.target.value,
+                        website_link: e.target.value,
                       });
                     }}
                   />
@@ -199,7 +209,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
 
               {/* ---- */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-2.5">
-                <div>
+                {/* <div>
                   <Label>Facebook</Label>
                   <div className="mt-1.5 flex">
                     <span className="inline-flex items-center px-2.5 rounded-l-2xl border border-r-0 border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 text-sm">
@@ -217,7 +227,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                       }}
                     />
                   </div>
-                </div>
+                </div> */}
                 <div>
                   <Label>Twitter</Label>
                   <div className="mt-1.5 flex">
@@ -231,7 +241,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                       onChange={(e) => {
                         setProfileData({
                           ...profileData,
-                          twitterURL: e.target.value,
+                          twitter: e.target.value,
                         });
                       }}
                     />
@@ -250,7 +260,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                       onChange={(e) => {
                         setProfileData({
                           ...profileData,
-                          instagramURL: e.target.value,
+                          instagram: e.target.value,
                         });
                       }}
                     />
@@ -265,18 +275,9 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                   <Input className="!pr-10 " disabled defaultValue={address} />
 
                   {!isCopied ? (
-                    <svg
-                      style={{ color: "green" }}
-                      className="absolute inset-y-2 right-1"
-                      width="30"
-                      viewBox="0 0 1024 1024"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill="#03680a"
-                        d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm-55.808 536.384-99.52-99.584a38.4 38.4 0 1 0-54.336 54.336l126.72 126.72a38.272 38.272 0 0 0 54.336 0l262.4-262.464a38.4 38.4 0 1 0-54.272-54.336L456.192 600.384z"
-                      ></path>
-                    </svg>
+                    <>
+                      <SuccessMark />
+                    </>
                   ) : (
                     <button
                       className="absolute inset-y-2 right-1"

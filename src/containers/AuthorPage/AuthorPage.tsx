@@ -10,7 +10,8 @@ import { nftsImgs } from "contains/fakeData";
 import NftMoreDropdown from "components/NftMoreDropdown";
 import ButtonDropDownShare from "components/ButtonDropDownShare";
 import SectionBecomeAnAuthor from "components/SectionBecomeAnAuthor/SectionBecomeAnAuthor";
-import SocialsList from "shared/SocialsList/SocialsList";
+import SocialsList2 from "shared/SocialsList/SocialsList2";
+import { SocialType } from "shared/SocialsShare/SocialsShare";
 import FollowButton from "components/FollowButton";
 import VerifyIcon from "components/VerifyIcon";
 import { Tab } from "@headlessui/react";
@@ -19,6 +20,15 @@ import ArchiveFilterListBox from "components/ArchiveFilterListBox";
 import SectionGridAuthorBox from "components/SectionGridAuthorBox/SectionGridAuthorBox";
 import OwnerNFT from "components/Cards/OwnerNFT";
 import AllNFT from "components/Cards/AllNFT";
+import { useAddress } from "@thirdweb-dev/react";
+import axios from "axios";
+import { ProfileType } from "../AccountPage/AccountPage";
+import facebook from "images/socials/facebook.svg";
+import twitter from "images/socials/twitter.svg";
+import telegram from "images/socials/telegram.svg";
+import youtube from "images/socials/youtube.svg";
+import useCopyToClipboard from "../../useHooks/useCopyToClipboard";
+import SuccessMark from "shared/SuccessMark/SuccessMark";
 
 export interface AuthorPageProps {
   className?: string;
@@ -32,6 +42,46 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
     "Following",
     "Followers",
   ]);
+  const [profileData, setProfileData] = useState<ProfileType>({});
+  const [value, copy] = useCopyToClipboard();
+  const [isCopied, setIsCopied] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const address: any = useAddress();
+  // const profileData:any = [];
+  // Hooks init
+
+  const socialsDemo: any = [
+    { name: "Twitter", icon: twitter, href: profileData.twitter },
+    { name: "Instagram", icon: youtube, href: profileData.instagram },
+    { name: "Website", icon: telegram, href: profileData.website_link },
+  ];
+
+  // console.log(profileData.);
+
+  React.useEffect(() => {
+    const url = `https://naijaplaystore.pythonanywhere.com/create-account/${address}`;
+    const getProfile = () => {
+      axios
+        .get(url)
+        .then((res) => {
+          setProfileData(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+    getProfile();
+  });
+  // coppy address
+  const copyAddress = () => {
+    copy(address);
+
+    setTimeout(() => {
+      setIsCopied(true);
+    }, 3000);
+    setIsCopied(false);
+  };
 
   return (
     <div className={`nc-AuthorPage  ${className}`} data-nc-id="AuthorPage">
@@ -59,41 +109,75 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
             <div className="pt-5 md:pt-1 md:ml-6 xl:ml-14 flex-grow">
               <div className="max-w-screen-sm ">
                 <h2 className="inline-flex items-center text-2xl sm:text-3xl lg:text-4xl font-semibold">
-                  <span>Dony Herrera</span>
-                  <VerifyIcon
-                    className="ml-2"
-                    iconClass="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8"
-                  />
+                  <span>{profileData.username}</span>
+                  {profileData.verifield && (
+                    <VerifyIcon
+                      className="ml-2"
+                      iconClass="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8"
+                    />
+                  )}
                 </h2>
                 <div className="flex items-center text-sm font-medium space-x-2.5 mt-2.5 text-green-600 cursor-pointer">
                   <span className="text-neutral-700 dark:text-neutral-300">
-                    4.0xc4c16ac453sa645a...b21a{" "}
+                    {profileData.address_id?.slice(0, 4) +
+                      "..." +
+                      profileData.address_id?.slice(-8)}
                   </span>
-                  <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
-                    <path
-                      d="M18.05 9.19992L17.2333 12.6833C16.5333 15.6916 15.15 16.9083 12.55 16.6583C12.1333 16.6249 11.6833 16.5499 11.2 16.4333L9.79999 16.0999C6.32499 15.2749 5.24999 13.5583 6.06665 10.0749L6.88332 6.58326C7.04999 5.87492 7.24999 5.25826 7.49999 4.74992C8.47499 2.73326 10.1333 2.19159 12.9167 2.84993L14.3083 3.17493C17.8 3.99159 18.8667 5.71659 18.05 9.19992Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M12.5498 16.6583C12.0331 17.0083 11.3831 17.3 10.5915 17.5583L9.2748 17.9917C5.96646 19.0583 4.2248 18.1667 3.1498 14.8583L2.08313 11.5667C1.01646 8.25833 1.8998 6.50833 5.20813 5.44167L6.5248 5.00833C6.86646 4.9 7.19146 4.80833 7.4998 4.75C7.2498 5.25833 7.0498 5.875 6.88313 6.58333L6.06646 10.075C5.2498 13.5583 6.3248 15.275 9.7998 16.1L11.1998 16.4333C11.6831 16.55 12.1331 16.625 12.5498 16.6583Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+
+                  {!isCopied ? (
+                    <>
+                      <p>copied !</p>
+                    </>
+                  ) : (
+                    <button onClick={copyAddress}>
+                      <svg
+                        width="20"
+                        height="21"
+                        viewBox="0 0 20 21"
+                        fill="none"
+                      >
+                        <path
+                          d="M18.05 9.19992L17.2333 12.6833C16.5333 15.6916 15.15 16.9083 12.55 16.6583C12.1333 16.6249 11.6833 16.5499 11.2 16.4333L9.79999 16.0999C6.32499 15.2749 5.24999 13.5583 6.06665 10.0749L6.88332 6.58326C7.04999 5.87492 7.24999 5.25826 7.49999 4.74992C8.47499 2.73326 10.1333 2.19159 12.9167 2.84993L14.3083 3.17493C17.8 3.99159 18.8667 5.71659 18.05 9.19992Z"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M12.5498 16.6583C12.0331 17.0083 11.3831 17.3 10.5915 17.5583L9.2748 17.9917C5.96646 19.0583 4.2248 18.1667 3.1498 14.8583L2.08313 11.5667C1.01646 8.25833 1.8998 6.50833 5.20813 5.44167L6.5248 5.00833C6.86646 4.9 7.19146 4.80833 7.4998 4.75C7.2498 5.25833 7.0498 5.875 6.88313 6.58333L6.06646 10.075C5.2498 13.5583 6.3248 15.275 9.7998 16.1L11.1998 16.4333C11.6831 16.55 12.1331 16.625 12.5498 16.6583Z"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  )}
                 </div>
 
                 <span className="block mt-4 text-sm text-neutral-500 dark:text-neutral-400">
-                  Punk #4786 / An OG Cryptopunk Collector, hoarder of NFTs.
-                  Contributing to @ether_cards, an NFT Monetization Platform.
+                  {profileData.bio}
                 </span>
               </div>
               <div className="mt-4 ">
-                <SocialsList itemClass="block w-7 h-7" />
+                <nav
+                  className={`nc-SocialsList flex space-x-2.5 text-2xl text-neutral-6000 dark:text-neutral-300 ${className}`}
+                  data-nc-id="SocialsList"
+                >
+                  {socialsDemo.map((item: any, i: number) => (
+                    <>
+                      {item.href !== null && (
+                        <SocialsList2
+                          itemClass="block w-7 h-7"
+                          key={i}
+                          href={`${item.href}`}
+                          icon={item.icon}
+                          name={item.name}
+                        />
+                      )}
+                    </>
+                  ))}
+                </nav>
               </div>
             </div>
             <div className="absolute md:static left-5 top-4 sm:left-auto sm:top-5 sm:right-5 flex flex-row-reverse justify-end">
