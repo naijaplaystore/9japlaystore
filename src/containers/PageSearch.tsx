@@ -91,13 +91,16 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
         </main>
 
         {/* === SECTION 5 === */}
-        <div className="relative py-16 lg:py-28">
+        {/* <div className="relative py-16 lg:py-28">
           <BackgroundSection />
           <SectionSliderCollections />
-        </div>
+        </div> */}
 
         {/* SUBCRIBES */}
-        <SectionBecomeAnAuthor />
+        <div className="relative py-16 lg:py-28">
+          <BackgroundSection />
+          <SectionBecomeAnAuthor />
+        </div>
       </div>
     </div>
   );

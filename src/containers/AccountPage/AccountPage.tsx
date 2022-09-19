@@ -37,6 +37,8 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   const [profileUrl, setProfileUrl] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  console.log(profileUrl);
+
   const [profileData, setProfileData] = useState<ProfileType>({
     address_id: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
     bio: "",
@@ -87,7 +89,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     // const result = await sdk.storage.upload(file);
     // const url = `https://gateway.thirdweb.dev/ipfs/${result.uris[0].slice(7)}`;
 
-    setProfileUrl(file.name);
+    setProfileUrl(file);
     // setFileUrl(url);
     // toast.dismiss();
 

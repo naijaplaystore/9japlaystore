@@ -33,7 +33,7 @@ const CardNFTMusic: FC<CardNFTMusicProps> = ({
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);
 
-  console.log(listings);
+  // console.log(listings);
 
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">
@@ -59,7 +59,11 @@ const CardNFTMusic: FC<CardNFTMusicProps> = ({
 
               {/* LIKE AND AVATARS */}
               <div className="absolute top-2.5 left-2.5 z-10 flex items-center space-x-2">
-                <LikeButton liked={isLiked} className=" !h-9" />
+                <LikeButton
+                  liked={isLiked}
+                  className=" !h-9"
+                  nftId={listing.id}
+                />
               </div>
 
               {/* ----TIME--- */}
