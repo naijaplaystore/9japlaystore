@@ -95,7 +95,8 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
             <div></div>
           </div>
           <div className="flex items-center space-x-3 xl:hidden">
-            <NotifyDropdown />
+            {/* <NotifyDropdown /> */}
+            <SwitchDarkMode />
             {address && <AvatarDropdown />}
 
             <MenuBar />

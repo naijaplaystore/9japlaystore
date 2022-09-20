@@ -12,7 +12,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   liked = +1,
   nftId,
 }) => {
-  const [isLiked, setIsLiked] = useState(liked);
+  const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState<any>({});
   const [likedNft, setLikedNft] = useState<any>({});
   const address = useAddress();
@@ -28,42 +28,16 @@ const LikeButton: React.FC<LikeButtonProps> = ({
       setUser(response.data);
     };
     getAllUsers();
-
-    // const getLiked = async () => {
-    //   try {
-    //     const response = await axios.get(
-    //       `https://naijaplaystore.pythonanywhere.com/get-or-delete-favorite/${user.id}/${nftId}`
-    //     );
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
-    // getLiked();
   }, [setUser]);
 
-  // Get liked NftMoreDropdown
-  // React.useEffect(() => {
-  //   const getAllUsers = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `https://naijaplaystore.pythonanywhere.com/get-or-delete-favorite/${user.id}/${nftId}`
-  //       );
-  //       setLikedNft(response.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getAllUsers();
-  // }, [setLikedNft]);
-
-  const url = "https://naijaplaystore.pythonanywhere.com/create-favorite";
-  const Liked = () => {
+  // Add to favorite
+  const addFavorite = async () => {
+    console.log("Liked");
     axios({
-      url: url,
+      url: `https://naijaplaystore.pythonanywhere.com/create-followers/${user.id}`,
       method: "post",
       data: {
-        favorites_id: nftId,
-        address: user.id,
+        address: address,
       },
     })
       .then((res) => {
@@ -74,25 +48,27 @@ const LikeButton: React.FC<LikeButtonProps> = ({
       });
   };
 
-  // Dislike NftMoreDropdown
-  const disLiked = () => {
-    const response = axios.delete(
-      `https://naijaplaystore.pythonanywhere.com/get-or-delete-favorite/${user.id}/${nftId}`
-    );
-    // console.log(response);
+  //Reamove from favorite
+  const removeFavorite = () => {
+    console.log("unLiked");
+    axios({
+      url: `https://naijaplaystore.pythonanywhere.com/get-or-delete-favorite/${user.id}/${nftId}`,
+      method: "delete",
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const LikeButton = () => {
     setIsLiked(!isLiked);
-    if (likedNft.favorites_id !== nftId) {
-      Liked();
-      console.log("liked");
-    } else {
-      disLiked();
-      console.log("disliked");
-    }
   };
 
+  // Add and remove from favorite
+  isLiked ? addFavorite() : removeFavorite();
   return (
     <button
       className={`bg-black/50 px-3.5 h-10 flex items-center justify-center rounded-full text-white ${className}`}
