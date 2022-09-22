@@ -40,7 +40,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   console.log(profileUrl);
 
   const [profileData, setProfileData] = useState<ProfileType>({
-    address_id: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    address_id: "0xdb70780a6ed17c8dddf19eb4EDf8016C0aC93f09",
     bio: "",
     profile_image: profileUrl,
     username: "",

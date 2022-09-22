@@ -9,7 +9,11 @@ import musicWave from "images/musicWave.png";
 import { nanoid } from "@reduxjs/toolkit";
 // import AudioForNft from "../AudioForNft";
 import RemainingTimeNftCard from "../RemainingTimeNftCard";
-import { useActiveListings, useMarketplace } from "@thirdweb-dev/react";
+import {
+  useActiveListings,
+  useMarketplace,
+  useAddress,
+} from "@thirdweb-dev/react";
 import { MARKETPLACE_ID } from "key";
 
 import AudioPlayer from "../AudioPlayer";

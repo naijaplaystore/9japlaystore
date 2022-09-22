@@ -14,30 +14,65 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState<any>({});
+  const [favorite, setFavorite] = useState<any>();
   const [likedNft, setLikedNft] = useState<any>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const address = useAddress();
   console.log(likedNft);
 
-  //
-
-  React.useEffect(() => {
-    const getAllUsers = async () => {
+  //Fetch uSER
+  const getAllUsers = async () => {
+    setIsLoading(true);
+    try {
       const response = await axios.get(
         `https://naijaplaystore.pythonanywhere.com/create-account/${address}`
       );
       setUser(response.data);
-    };
-    getAllUsers();
-  }, [setUser]);
+      setIsLoading(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Fetch all data from
+  const getAllFavorite = async () => {
+    try {
+      const res = await axios({
+        method: "get",
+        url: `https://naijaplaystore.pythonanywhere.com/get-user-favorite/${user.id}`,
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  React.useEffect(() => {
+    isLoading ? console.log("loading....") : getAllUsers();
+
+    getAllFavorite();
+  }, []);
+  // console.log(user.id);
+  const getFavorite = async () => {
+    try {
+      const res = await axios.get(
+        `https://naijaplaystore.pythonanywhere.com/get-or-delete-favorite/${user.id}/${nftId}`
+      );
+      setFavorite(res);
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // Add to favorite
-  const addFavorite = async () => {
+  const addFavorite = () => {
     console.log("Liked");
     axios({
-      url: `https://naijaplaystore.pythonanywhere.com/create-followers/${user.id}`,
+      url: `https://naijaplaystore.pythonanywhere.com/create-favorite`,
       method: "post",
       data: {
-        address: address,
+        favorites_id: nftId,
+        address: user.id,
       },
     })
       .then((res) => {
@@ -63,12 +98,21 @@ const LikeButton: React.FC<LikeButtonProps> = ({
       });
   };
 
+  // Action button
   const LikeButton = () => {
     setIsLiked(!isLiked);
+    getFavorite();
+    setTimeout(() => {
+      !isLiked && addFavorite();
+      isLiked && removeFavorite();
+    }, 100);
   };
 
   // Add and remove from favorite
-  isLiked ? addFavorite() : removeFavorite();
+
+  // isLiked ? addFavorite() : removeFavorite();
+  console.log(user.id);
+
   return (
     <button
       className={`bg-black/50 px-3.5 h-10 flex items-center justify-center rounded-full text-white ${className}`}
