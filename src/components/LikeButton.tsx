@@ -7,14 +7,20 @@ export interface LikeButtonProps {
   nftId?: string;
 }
 
+interface instance {
+  id?: string;
+  favorites_id?: string;
+}
+
 const LikeButton: React.FC<LikeButtonProps> = ({
   className,
   liked = +1,
   nftId,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState<instance>({});
   const [favorite, setFavorite] = useState<any>();
+  const [allFavorite, setAllFavorite] = useState<instance>({});
   const [likedNft, setLikedNft] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const address = useAddress();
@@ -28,6 +34,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
         `https://naijaplaystore.pythonanywhere.com/create-account/${address}`
       );
       setUser(response.data);
+      getAllFavorite(response.data.id);
       setIsLoading(false);
     } catch (err) {
       console.error(err);
@@ -35,21 +42,23 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   };
 
   // Fetch all data from
-  const getAllFavorite = async () => {
+  const getAllFavorite = async (userId: any) => {
     try {
       const res = await axios({
         method: "get",
-        url: `https://naijaplaystore.pythonanywhere.com/get-user-favorite/${user.id}`,
+        url: `https://naijaplaystore.pythonanywhere.com/get-user-favorite/${userId}`,
       });
       console.log(res);
+      setAllFavorite(res.data);
     } catch (err) {
       console.log(err);
     }
   };
   React.useEffect(() => {
-    isLoading ? console.log("loading....") : getAllUsers();
-
-    getAllFavorite();
+    const render = async () => {
+      await getAllUsers();
+    };
+    render();
   }, []);
   // console.log(user.id);
   const getFavorite = async () => {
@@ -111,7 +120,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   // Add and remove from favorite
 
   // isLiked ? addFavorite() : removeFavorite();
-  console.log(user.id);
+  console.log(allFavorite);
 
   return (
     <button
