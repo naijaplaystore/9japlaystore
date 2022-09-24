@@ -120,7 +120,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   // Add and remove from favorite
 
   // isLiked ? addFavorite() : removeFavorite();
-  console.log(allFavorite);
+  // console.log(allFavorite);
 
   return (
     <button
