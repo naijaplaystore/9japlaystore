@@ -1,5 +1,5 @@
 import Label from "components/Label/Label";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useContext } from "react";
 import Avatar from "shared/Avatar/Avatar";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import Input from "shared/Input/Input";
@@ -11,6 +11,7 @@ import axios from "axios";
 import { profile } from "console";
 import toast from "react-hot-toast";
 import SuccessMark from "shared/SuccessMark/SuccessMark";
+import UserContext from "context/UserContext";
 
 export interface AccountPageProps {
   className?: string;
@@ -31,16 +32,16 @@ export interface ProfileType {
 const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   // thirdweb init
   const address = useAddress() as string;
+  // const { user }: any = useContext(UserContext);
+  // console.log(user);
   // Hooks init
   const [value, copy] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState<boolean>(true);
   const [profileUrl, setProfileUrl] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  console.log(profileUrl);
-
   const [profileData, setProfileData] = useState<ProfileType>({
-    address_id: "0xdb70780a6ed17c8dddf19eb4EDf8016C0aC93f09",
+    // address_id: user.address_id,
     bio: "",
     profile_image: profileUrl,
     username: "",
@@ -49,6 +50,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     twitter: "",
     instagram: "",
   });
+  console.log(profileUrl);
 
   // Fuction to copy address
   const copyAddress = () => {
@@ -65,11 +67,16 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   // Function to handle input change
   const url: string = `https://naijaplaystore.pythonanywhere.com/update/${address}`;
   const updateProfile = () => {
+    const header = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
     setLoading(true);
     axios
-      .put(url, profileData)
+      .patch(url, profileData, header)
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         toast.dismiss();
         toast.success("Your Profile is uploaded sucessful");
         setLoading(false);

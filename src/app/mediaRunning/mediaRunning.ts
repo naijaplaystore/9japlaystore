@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 
-export interface MediaRunningState {
+export interface MediaRunningState
+{
   nftId?: string;
   state?: "playing" | "paused" | "ended" | null;
   // state?: "loading" | "playing" | "paused" | "ended" | null;
@@ -17,7 +18,8 @@ export const mediaRunningSlice = createSlice({
     changeCurrentMediaRunning: (
       state,
       action: PayloadAction<MediaRunningState>
-    ) => {
+    ) =>
+    {
       return {
         ...state,
         ...action.payload,
@@ -26,19 +28,22 @@ export const mediaRunningSlice = createSlice({
     changeStateMediaRunning: (
       state,
       action: PayloadAction<MediaRunningState["state"]>
-    ) => {
+    ) =>
+    {
       return {
         ...state,
         state: action.payload,
       };
     },
-    removeMediaRunning: (state) => {
+    removeMediaRunning: (state) =>
+    {
       return {
         listIdAudio: state.listIdAudio,
       };
     },
     //
-    addNewIdListAudio: (state, action: PayloadAction<string>) => {
+    addNewIdListAudio: (state, action: PayloadAction<string>) =>
+    {
       return {
         ...state,
         listIdAudio: [...(state.listIdAudio || []), action.payload],

@@ -16,23 +16,20 @@ export interface MainNav2LoggedProps {}
 
 const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
   //Connect your wallet
-  const address = useAddress();
+  const address: any = useAddress();
 
   // Hooks init
-  const url = `https://naijaplaystore.pythonanywhere.com/create-account/${address}`;
 
-  const saveAddress = () => {
-    axios
-      .get(url)
-      .then((res) => {
-        // console.log(res);
-        return;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  const saveAddress = async (addr: any) => {
+    const url = `https://naijaplaystore.pythonanywhere.com/create-account/${addr}`;
+    try {
+      const res = await axios.get(url);
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
   };
-  saveAddress();
+  saveAddress(address);
 
   return (
     <div className={`nc-MainNav2Logged relative z-10 ${"onTop "}`}>

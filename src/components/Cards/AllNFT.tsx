@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "shared/Avatar/Avatar";
 import NcImage from "shared/NcImage/NcImage";
@@ -18,6 +18,7 @@ import { MARKETPLACE_ID } from "key";
 
 import AudioPlayer from "../AudioPlayer";
 import { AudioPlayerProvider } from "react-use-audio-player";
+
 export interface CardNFTMusicProps {
   className?: string;
   featuredImage?: string;

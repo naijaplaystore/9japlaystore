@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useAddress } from "@thirdweb-dev/react";
+import UserContext from "context/UserContext";
+import FavoriteContext from "context/FvoriteContext";
+
 export interface LikeButtonProps {
   className?: string;
   liked?: boolean;
@@ -18,55 +21,23 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   nftId,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
-  const [user, setUser] = useState<instance>({});
-  const [favorite, setFavorite] = useState<any>();
-  const [allFavorite, setAllFavorite] = useState<instance>({});
+  // const [favorite, setFavorite] = useState<any>();
+  // const [allFavorite, setAllFavorite] = useState<instance>({});
   const [likedNft, setLikedNft] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const address = useAddress();
-  console.log(likedNft);
-
-  //Fetch uSER
-  const getAllUsers = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(
-        `https://naijaplaystore.pythonanywhere.com/create-account/${address}`
-      );
-      setUser(response.data);
-      getAllFavorite(response.data.id);
-      setIsLoading(false);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // Fetch all data from
-  const getAllFavorite = async (userId: any) => {
-    try {
-      const res = await axios({
-        method: "get",
-        url: `https://naijaplaystore.pythonanywhere.com/get-user-favorite/${userId}`,
-      });
-      console.log(res);
-      setAllFavorite(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  React.useEffect(() => {
-    const render = async () => {
-      await getAllUsers();
-    };
-    render();
-  }, []);
+  // console.log(likedNft)
+  const { user }: any = useContext(UserContext);
+  // const { allFavorite }: any = useContext(FavoriteContext);
+  // const favorite = allFavorite.find((favorite: any) => favorite.favorites_id);
   // console.log(user.id);
+  // console.log(allFavorite);
   const getFavorite = async () => {
     try {
       const res = await axios.get(
         `https://naijaplaystore.pythonanywhere.com/get-or-delete-favorite/${user.id}/${nftId}`
       );
-      setFavorite(res);
+      // setFavorite(res);
       console.log(res);
     } catch (err) {
       console.error(err);
@@ -76,35 +47,35 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   // Add to favorite
   const addFavorite = () => {
     console.log("Liked");
-    axios({
-      url: `https://naijaplaystore.pythonanywhere.com/create-favorite`,
-      method: "post",
-      data: {
-        favorites_id: nftId,
-        address: user.id,
-      },
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axios({
+    //   url: `https://naijaplaystore.pythonanywhere.com/create-favorite`,
+    //   method: "post",
+    //   data: {
+    //     favorites_id: nftId,
+    //     address: user.id,
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   //Reamove from favorite
   const removeFavorite = () => {
     console.log("unLiked");
-    axios({
-      url: `https://naijaplaystore.pythonanywhere.com/get-or-delete-favorite/${user.id}/${nftId}`,
-      method: "delete",
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axios({
+    //   url: `https://naijaplaystore.pythonanywhere.com/get-or-delete-favorite/${user.id}/${nftId}`,
+    //   method: "delete",
+    // })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   // Action button
