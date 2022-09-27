@@ -32,7 +32,7 @@ export interface ProfileType {
 const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   // thirdweb init
   const address = useAddress() as string;
-  // const { user }: any = useContext(UserContext);
+  const { user }: any = useContext(UserContext);
   // console.log(user);
   // Hooks init
   const [value, copy] = useCopyToClipboard();

@@ -34,6 +34,7 @@ const HeroCard: FC<HeroCardProps> = ({
     musicMeta.push(listing.asset);
   });
   let rand = [musicMeta[Math.floor(Math.random() * musicMeta.length)]];
+  console.log(rand);
 
   return (
     <div>
@@ -62,7 +63,7 @@ const HeroCard: FC<HeroCardProps> = ({
 
             {/* LIKE AND AVATARS */}
             <div className="absolute top-2.5 left-2.5 z-10 flex items-center space-x-2">
-              <LikeButton liked={isLiked} className=" !h-9" />
+              <LikeButton className=" !h-9" nftId={listing.id.toNumber()} />
             </div>
 
             {/* ----TIME--- */}

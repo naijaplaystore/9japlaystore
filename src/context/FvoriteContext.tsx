@@ -42,7 +42,7 @@ export const FavoriteProvider = ({ children }: FavoriteProvider) => {
         method: "get",
         url: `https://naijaplaystore.pythonanywhere.com/get-user-favorite/${userId}`,
       });
-      console.log(res.data);
+      // console.log(res.data);
       setAllFavorite(res.data);
     } catch (err) {
       console.log(err);
@@ -53,7 +53,7 @@ export const FavoriteProvider = ({ children }: FavoriteProvider) => {
       await getAllUsers();
     };
     render();
-  }, [setAllFavorite]);
+  }, [allFavorite]);
   return (
     <FavoriteContext.Provider value={{ allFavorite }}>
       {children}

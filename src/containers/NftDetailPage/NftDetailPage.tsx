@@ -279,11 +279,11 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
               <DetailCard
                 image={listings?.asset.image}
                 audio={listings?.asset.audio}
+                nftId={listings?.id}
               />
               {/* META TYPE */}
 
               {/* META FAVORITES */}
-              {/* <LikeButton className="absolute right-3 top-3 " /> */}
             </div>
 
             <AccordionInfo

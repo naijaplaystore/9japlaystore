@@ -69,7 +69,7 @@ const OwnerNFT: FC<OwnerProps> = ({
 
                   {/* LIKE AND AVATARS */}
                   <div className="absolute top-2.5 left-2.5 z-10 flex items-center space-x-2">
-                    <LikeButton liked={isLiked} className=" !h-9" />
+                    <LikeButton className=" !h-9" nftId={nft.id} />
                   </div>
 
                   {/* ----TIME--- */}
