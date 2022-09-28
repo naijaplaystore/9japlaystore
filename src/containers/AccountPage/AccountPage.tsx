@@ -41,7 +41,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [profileData, setProfileData] = useState<ProfileType>({
-    // address_id: user.address_id,
+    address_id: address,
     bio: "",
     profile_image: profileUrl,
     username: "",
@@ -50,7 +50,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     twitter: "",
     instagram: "",
   });
-  console.log(profileUrl);
+  // console.log(profileUrl);
 
   // Fuction to copy address
   const copyAddress = () => {
@@ -74,10 +74,10 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     };
     setLoading(true);
     axios
-      .patch(url, profileData, header)
+      .put(url, profileData, header)
       .then((res) => {
         console.log(res);
-        toast.dismiss();
+        // toast.dismiss();
         toast.success("Your Profile is uploaded sucessful");
         setLoading(false);
         return;
@@ -87,9 +87,9 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
       });
   };
 
-  loading && toast.loading("Loading.......");
+  // loading && toast.loading("Loading.......");
 
-  console.log(profileUrl);
+  // console.log(profileUrl);
   // Profile image upload
   const onProfileUpload = (e: any) => {
     const file = e.target.files[0];
@@ -156,7 +156,8 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                 <Label>Username</Label>
                 <Input
                   className="mt-1.5"
-                  defaultValue="Eden Tuan"
+                  placeholder="Fullname"
+                  defaultValue={user.username}
                   onChange={(e) => {
                     setProfileData({
                       ...profileData,
@@ -176,6 +177,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                   <Input
                     className="!rounded-l-none"
                     placeholder="example@email.com"
+                    defaultValue={user.email}
                     onChange={(e) => {
                       setProfileData({ ...profileData, email: e.target.value });
                     }}
@@ -190,6 +192,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                   rows={5}
                   className="mt-1.5"
                   placeholder="Something about yourself in a few word."
+                  defaultValue={user.bio}
                   onChange={(e) => {
                     setProfileData({ ...profileData, bio: e.target.value });
                   }}
@@ -206,6 +209,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                   <Input
                     className="!rounded-l-none"
                     placeholder="yourwebsite.com"
+                    value={user.website_link}
                     onChange={(e) => {
                       setProfileData({
                         ...profileData,
@@ -247,6 +251,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                       className="!rounded-l-none"
                       placeholder="yourtwitter"
                       sizeClass="h-11 px-4 pl-2 pr-3"
+                      value={user.twitter}
                       onChange={(e) => {
                         setProfileData({
                           ...profileData,
@@ -266,6 +271,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                       className="!rounded-l-none"
                       placeholder="Instagram"
                       sizeClass="h-11 px-4 pl-2 pr-3"
+                      value={user.instagram}
                       onChange={(e) => {
                         setProfileData({
                           ...profileData,

@@ -1,4 +1,6 @@
-import React, { FC } from "react";
+import axios from "axios";
+import UserContext from "context/UserContext";
+import React, { FC, useContext } from "react";
 import ButtonPrimary, { ButtonPrimaryProps } from "shared/Button/ButtonPrimary";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
 
@@ -13,13 +15,67 @@ const FollowButton: FC<FollowButtonProps> = ({
   isFollowing = Math.random() > 0.5,
 }) => {
   const [following, setFollowing] = React.useState(isFollowing);
+  const { user }: any = useContext(UserContext);
+  // console.log(user);
+
+  // Follow Api
+  const FollowApi = async () => {
+    // try {
+    // const res = await axios({
+    //   method: "post",
+    //   url: `https://naijaplaystore.pythonanywhere.com/create-followers/${user.id}`,
+    //   data: {
+    //     address: user.id,
+    //   },
+    // });
+
+    // console.log(res);
+    let url = `https://naijaplaystore.pythonanywhere.com/create-followers/42`;
+    const data = {
+      address: "42",
+    };
+    axios
+      .post(url, data)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
+  // unfollow Api
+  const unFollowApi = async () => {
+    try {
+      const res = await axios({
+        url: ``,
+      });
+
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // Follow user function
+  const Follow = () => {
+    console.log("follow");
+    FollowApi();
+  };
+
+  // unfollow user function
+  const unFollow = () => {
+    console.log("un follow");
+  };
+
+  // Event
+  const onFollow = (action: boolean) => {
+    !following ? setFollowing(action) : setFollowing(action);
+    !following ? Follow() : unFollow();
+  };
 
   return !following ? (
     <ButtonPrimary
       className={className}
       sizeClass={sizeClass}
       fontSize={fontSize}
-      onClick={() => setFollowing(true)}
+      onClick={() => onFollow(true)}
     >
       Follow
     </ButtonPrimary>
@@ -28,7 +84,7 @@ const FollowButton: FC<FollowButtonProps> = ({
       className={className}
       sizeClass={sizeClass}
       fontSize={fontSize}
-      onClick={() => setFollowing(false)}
+      onClick={() => onFollow(false)}
     >
       <span className="text-sm ">Following</span>
     </ButtonSecondary>

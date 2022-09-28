@@ -29,7 +29,7 @@ export const UserProvider = ({ children }: UserProvider) => {
   const getAllUsers = async (addr: any) => {
     // setIsLoading(true);
     if (addr === undefined) {
-      console.log("loading... ");
+      //   console.log("loading... ");
     } else {
       const url = `https://naijaplaystore.pythonanywhere.com/create-account/${addr}`;
       try {

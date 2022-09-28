@@ -11,7 +11,7 @@ interface instance {
   favorites_id?: string;
 }
 
-interface AppContextInterface {
+export interface AppContextInterface {
   id?: string;
   user?: {};
 }
