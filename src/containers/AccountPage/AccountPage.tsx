@@ -44,11 +44,11 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     address_id: address,
     bio: "",
     profile_image: profileUrl,
-    username: "",
+    username: "", 
     email: "",
     website_link: "",
     twitter: "",
-    instagram: "",
+    instagram: "", 
   });
   // console.log(profileUrl);
 
