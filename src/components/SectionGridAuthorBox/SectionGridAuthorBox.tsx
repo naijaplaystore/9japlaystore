@@ -45,7 +45,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
     getAllUsers();
   }, [setUsers]);
 
-  console.log(users);
+  // console.log(users);
 
   const renderCard = (index: number) => {
     switch (boxCard) {
@@ -172,6 +172,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
             username={user.username}
             verified={user.verifield}
             address={user.address_id}
+            locate={user.address_id}
           />
         ))}
       </div>

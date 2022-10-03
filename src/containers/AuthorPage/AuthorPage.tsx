@@ -29,12 +29,18 @@ import telegram from "images/socials/telegram.svg";
 import youtube from "images/socials/youtube.svg";
 import useCopyToClipboard from "../../useHooks/useCopyToClipboard";
 import SuccessMark from "shared/SuccessMark/SuccessMark";
+import { useHistory, useParams } from "react-router-dom";
 
 export interface AuthorPageProps {
   className?: string;
 }
 
 const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
+  const { userAddress }: any = useParams();
+  const address: any = useAddress();
+
+  const checkIfUserLogin = userAddress === address;
+
   let [categories] = useState([
     "Collectibles",
     // "Created",
@@ -47,9 +53,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
   const [isCopied, setIsCopied] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const address: any = useAddress();
-  // const profileData:any = [];
-  // Hooks init
+  // console.log(userAddress);
 
   const socialsDemo: any = [
     { name: "Twitter", icon: twitter, href: profileData.twitter },
@@ -60,7 +64,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
   // console.log(profileData.);
 
   React.useEffect(() => {
-    const url = `https://naijaplaystore.pythonanywhere.com/create-account/${address}`;
+    const url = `https://naijaplaystore.pythonanywhere.com/create-account/${userAddress}`;
     const getProfile = () => {
       axios
         .get(url)
@@ -72,7 +76,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
         });
     };
     getProfile();
-  });
+  }, [address]);
   // coppy address
   const copyAddress = () => {
     copy(address);

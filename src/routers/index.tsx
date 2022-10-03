@@ -32,7 +32,7 @@ export const pages: Page[] = [
   { path: "/nft-detailt/:tokenId", component: NftDetailPage },
   { path: "/page-collection", component: PageCollection },
   { path: "/page-search", component: PageSearch },
-  { path: "/page-author", component: AuthorPage },
+  { path: "/page-author/:userAddress", component: AuthorPage },
   { path: "/account", component: AccountPage },
   { path: "/page-upload-item", component: PageUploadItem },
   { path: "/connect-wallet", component: PageConnectWallet },

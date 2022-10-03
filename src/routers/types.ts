@@ -1,6 +1,7 @@
 import { ComponentType } from "react";
 
-export interface LocationStates {
+export interface LocationStates
+{
   "/"?: {};
   "/#"?: {};
   "/home2"?: {};
@@ -10,6 +11,7 @@ export interface LocationStates {
   "/page-collection"?: {};
   "/page-search"?: {};
   "/page-author"?: {};
+  "/page-author/:userAddress"?: {};
   "/page-upload-item"?: {};
   "/home-header-2"?: {};
   "/connect-wallet"?: {};
@@ -32,7 +34,8 @@ export interface LocationStates {
 
 export type PathName = keyof LocationStates;
 
-export interface Page {
+export interface Page
+{
   path: PathName;
   exact?: boolean;
   component: ComponentType<Object>;

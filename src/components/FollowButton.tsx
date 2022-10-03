@@ -20,22 +20,13 @@ const FollowButton: FC<FollowButtonProps> = ({
 
   // Follow Api
   const FollowApi = async () => {
-    // try {
-    // const res = await axios({
-    //   method: "post",
-    //   url: `https://naijaplaystore.pythonanywhere.com/create-followers/${user.id}`,
-    //   data: {
-    //     address: user.id,
-    //   },
-    // });
-
-    // console.log(res);
-    let url = `https://naijaplaystore.pythonanywhere.com/create-followers/42`;
+    let url = `https://naijaplaystore.pythonanywhere.com/create-followers/55`;
     const data = {
-      address: "42",
+      address: "55",
+      followers: [],
     };
     axios
-      .post(url, data)
+      .post(url)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };

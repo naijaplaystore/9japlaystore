@@ -15,6 +15,7 @@ export interface CardAuthorBox4Props {
   profileImage?: string;
   verified?: boolean;
   address?: string;
+  locate: number | undefined;
 }
 
 const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
@@ -25,6 +26,7 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
   address,
   profileImage,
   verified,
+  locate,
 }) => {
   return (
     <div
@@ -93,7 +95,7 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
         </div>
       </div>
 
-      <Link to={"/page-author"} className="absolute inset-0"></Link>
+      <Link to={`/page-author/${locate}`} className="absolute inset-0"></Link>
     </div>
   );
 };

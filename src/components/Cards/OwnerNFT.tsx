@@ -68,9 +68,9 @@ const OwnerNFT: FC<OwnerProps> = ({
                   </div>
 
                   {/* LIKE AND AVATARS */}
-                  <div className="absolute top-2.5 left-2.5 z-10 flex items-center space-x-2">
+                  {/* <div className="absolute top-2.5 left-2.5 z-10 flex items-center space-x-2">
                     <LikeButton className=" !h-9" nftId={nft.id} />
-                  </div>
+                  </div> */}
 
                   {/* ----TIME--- */}
                   <RemainingTimeNftCard />
