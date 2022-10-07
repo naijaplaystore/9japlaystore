@@ -13,6 +13,7 @@ import {
   useNFTCollection,
   useNFTs,
   useAddress,
+  useOwnedNFTs,
 } from "@thirdweb-dev/react";
 import { MARKETPLACE_ID, COLLECTION_ID } from "key";
 
@@ -23,12 +24,14 @@ export interface OwnerProps {
   className?: string;
   featuredImage?: string;
   isLiked?: boolean;
+  userAddress: string | undefined;
 }
 
 const OwnerNFT: FC<OwnerProps> = ({
   className = "",
   isLiked,
   featuredImage = nftsAbstracts[18],
+  userAddress,
 }) => {
   // Connect your marketplace smart contract here (replace this address)
   const address = useAddress();
@@ -37,19 +40,24 @@ const OwnerNFT: FC<OwnerProps> = ({
   );
 
   const nftCollection = useNFTCollection(COLLECTION_ID);
-  const { data: nfts, isLoading } = useNFTs(nftCollection);
-  const { data: listings, isLoading: loadingListings } =
-    useActiveListings(marketplace);
+  // const { data: nfts, isLoading } = useNFTs(nftCollection);
+  // const { data: listings, isLoading: loadingListings } =
+  //   useActiveListings(marketplace);
+
+  const { data: ownedNFTs, isLoading } = useOwnedNFTs(
+    nftCollection,
+    userAddress
+  );
 
   // const sold = listings?.filter((listing) => listing.sold);
 
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10 ">
-      {loadingListings ? (
+      {isLoading ? (
         <div>Loading...</div>
       ) : (
         <>
-          {nfts?.map(
+          {ownedNFTs?.map(
             (nft: any, index) =>
               nft.owner === address && (
                 <div
@@ -128,6 +136,7 @@ const OwnerNFT: FC<OwnerProps> = ({
           )}
         </>
       )}
+      {ownedNFTs?.length === 0 && <p>No nft</p>}
       {/* <div className="grid grid-rows-3 gap-6 xl:gap-8 sm:col-span-6 xl:col-span-2">
         {[nftsAbstracts[2], nftsAbstracts[4], nftsAbstracts[7]].map(
           (p, index) => (

@@ -6,6 +6,12 @@ import ButtonSecondary from "shared/Button/ButtonSecondary";
 
 export interface FollowButtonProps extends ButtonPrimaryProps {
   isFollowing?: boolean;
+  userId?: number | undefined;
+}
+
+interface followersProps {
+  id: number | null;
+  followers: [];
 }
 
 const FollowButton: FC<FollowButtonProps> = ({
@@ -13,20 +19,53 @@ const FollowButton: FC<FollowButtonProps> = ({
   sizeClass = "px-4 py-1.5 min-w-[84px]",
   fontSize = "text-sm font-medium",
   isFollowing = Math.random() > 0.5,
+  userId,
 }) => {
   const [following, setFollowing] = React.useState(isFollowing);
   const { user }: any = useContext(UserContext);
-  // console.log(user);
+  const [isFollowers, setIsFollowers] = React.useState<followersProps>({
+    id: null,
+    followers: [],
+  });
 
+  // get followers Api
+  React.useEffect(() => {
+    const getFollowesApi = async () => {
+      let url = `https://naijaplaystore.pythonanywhere.com/get-or-update-followers/${user.id}/`;
+      await axios
+        .get(url)
+        .then((res) => {
+          setIsFollowers(res.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    getFollowesApi();
+  }, [user.id]);
+
+  console.log(...isFollowers.followers);
   // Follow Api
   const FollowApi = async () => {
-    let url = `https://naijaplaystore.pythonanywhere.com/create-followers/55`;
+    let url = `https://naijaplaystore.pythonanywhere.com/get-or-create-followers/`;
+
     const data = {
-      address: "55",
-      followers: [],
+      address: user.id,
+      followers: [userId],
     };
     axios
-      .post(url)
+      .post(url, data)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
+  // update Follow Api
+  const updateFollowApi = () => {
+    let url = `https://naijaplaystore.pythonanywhere.com/get-or-update-followers/${user.id}`;
+    const data = {
+      address: user.id,
+      followers: [userId],
+    };
+    axios
+      .post(url, data)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
@@ -47,7 +86,7 @@ const FollowButton: FC<FollowButtonProps> = ({
   // Follow user function
   const Follow = () => {
     console.log("follow");
-    FollowApi();
+    isFollowers.id ? updateFollowApi() : FollowApi();
   };
 
   // unfollow user function

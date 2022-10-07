@@ -257,7 +257,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
             </div>
             <Tab.Panels>
               <Tab.Panel className="">
-                <OwnerNFT />
+                <OwnerNFT userAddress={userAddress} />
 
                 {/* PAGINATION */}
                 <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
@@ -286,8 +286,16 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
                     <CardNFT isLiked key={index} />
                   ))}
                 </div> */}
+                {checkIfUserLogin && <AllNFT />}
+                {!checkIfUserLogin &&
+                  Array.from("11111111").map((_, index) => (
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-8 lg:mt-10">
+                      {Array.from("11111111").map((_, index) => (
+                        <CardAuthorBox3 following key={index} />
+                      ))}
+                    </div>
+                  ))}
 
-                <AllNFT />
                 {/* PAGINATION */}
                 <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
                   <Pagination />

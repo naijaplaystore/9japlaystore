@@ -16,6 +16,7 @@ export interface CardAuthorBox4Props {
   verified?: boolean;
   address?: string;
   locate: number | undefined;
+  userId: number | undefined;
 }
 
 const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
@@ -27,6 +28,7 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
   profileImage,
   verified,
   locate,
+  userId,
 }) => {
   return (
     <div
@@ -91,6 +93,7 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
           <FollowButton
             sizeClass="px-4 py-2 min-w-[84px]"
             isFollowing={following}
+            userId={userId}
           />
         </div>
       </div>

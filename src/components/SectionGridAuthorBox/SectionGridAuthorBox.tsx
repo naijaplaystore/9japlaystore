@@ -173,6 +173,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
             verified={user.verifield}
             address={user.address_id}
             locate={user.address_id}
+            userId={user.id}
           />
         ))}
       </div>

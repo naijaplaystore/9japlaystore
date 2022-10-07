@@ -50,7 +50,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     twitter: "",
     instagram: "",
   });
-  // console.log(profileUrl);
+  // console.log(profileData);
 
   // Fuction to copy address to clipbboard
   const copyAddress = () => {
@@ -65,26 +65,34 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   // Function to get data
 
   // Function to handle input change
-  const url: string = `https://naijaplaystore.pythonanywhere.com/update/${address}`;
+  const url: string = `https://naijaplaystore.pythonanywhere.com/update/${address}/`;
   const updateProfile = () => {
-    const header = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
+    // const header = {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // };
     setLoading(true);
-    axios
-      .put(url, profileData, header)
-      .then((res) => {
-        console.log(res);
-        // toast.dismiss();
-        toast.success("Your Profile is uploaded sucessful");
-        setLoading(false);
-        return;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    // axios
+    //   .patch(url, profileData)
+    //   .then((res) => {
+    //     console.log(res);
+    //     // toast.dismiss();
+    //     toast.success("Your Profile is uploaded sucessful");
+    //     setLoading(false);
+    //     return;
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
+
+    axios({
+      method: "put",
+      data: profileData,
+      url: url,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err.message));
   };
 
   // loading && toast.loading("Loading.......");
