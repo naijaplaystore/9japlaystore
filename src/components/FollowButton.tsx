@@ -12,6 +12,7 @@ export interface FollowButtonProps extends ButtonPrimaryProps {
 interface followersProps {
   id: number | null;
   followers: [];
+  address: string;
 }
 
 const FollowButton: FC<FollowButtonProps> = ({
@@ -21,11 +22,12 @@ const FollowButton: FC<FollowButtonProps> = ({
   isFollowing = Math.random() > 0.5,
   userId,
 }) => {
-  const [following, setFollowing] = React.useState(isFollowing);
+  const [following, setFollowing] = React.useState(false);
   const { user }: any = useContext(UserContext);
   const [isFollowers, setIsFollowers] = React.useState<followersProps>({
     id: null,
     followers: [],
+    address: "",
   });
 
   // get followers Api
@@ -40,9 +42,8 @@ const FollowButton: FC<FollowButtonProps> = ({
         .catch((err) => console.log(err));
     };
     getFollowesApi();
-  }, [user.id]);
+  }, [user.id, isFollowers]);
 
-  console.log(...isFollowers.followers);
   // Follow Api
   const FollowApi = async () => {
     let url = `https://naijaplaystore.pythonanywhere.com/get-or-create-followers/`;
@@ -53,54 +54,68 @@ const FollowButton: FC<FollowButtonProps> = ({
     };
     axios
       .post(url, data)
-      .then((res) => console.log(res))
+      .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
   };
 
   // update Follow Api
   const updateFollowApi = () => {
-    let url = `https://naijaplaystore.pythonanywhere.com/get-or-update-followers/${user.id}`;
+    let url = `https://naijaplaystore.pythonanywhere.com/get-or-update-followers/${user.id}/`;
+    // addFollowers.push(userId);
+
     const data = {
       address: user.id,
-      followers: [userId],
+      followers: [...isFollowers.followers, userId],
     };
     axios
-      .post(url, data)
+      .put(url, data)
       .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err.message));
   };
+  // console.log(addFollowers);
 
   // unfollow Api
-  const unFollowApi = async () => {
-    try {
-      const res = await axios({
-        url: ``,
-      });
 
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+  const unFollowApi = async () => {
+    let url = `https://naijaplaystore.pythonanywhere.com/get-or-update-followers/${user.id}/`;
+    const filterId = isFollowers.followers.filter((e) => e !== userId);
+    // console.log(filterId);
+    const data = {
+      address: user.id,
+      followers: filterId,
+    };
+    axios
+      .put(url, data)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err.message));
   };
 
   // Follow user function
   const Follow = () => {
-    console.log("follow");
-    isFollowers.id ? updateFollowApi() : FollowApi();
+    isFollowers.address ? updateFollowApi() : FollowApi();
   };
 
   // unfollow user function
   const unFollow = () => {
     console.log("un follow");
+    unFollowApi();
   };
+
+  // const filterFollowers = (e: any) => e === userId;
+
+  // const filtered = isFollowers.followers.filter(filterFollowers);
 
   // Event
   const onFollow = (action: boolean) => {
-    !following ? setFollowing(action) : setFollowing(action);
-    !following ? Follow() : unFollow();
+    !following && !isFollowers.followers.includes(userId as never)
+      ? setFollowing(action)
+      : setFollowing(action);
+    !following && !isFollowers.followers.includes(userId as never)
+      ? Follow()
+      : unFollow();
   };
 
-  return !following ? (
+  return !following && !isFollowers.followers.includes(userId as never) ? (
     <ButtonPrimary
       className={className}
       sizeClass={sizeClass}
