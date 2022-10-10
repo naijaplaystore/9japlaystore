@@ -18,6 +18,7 @@ import { MARKETPLACE_ID } from "key";
 
 import AudioPlayer from "../AudioPlayer";
 import { AudioPlayerProvider } from "react-use-audio-player";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 export interface CardNFTMusicProps {
   className?: string;
@@ -25,6 +26,19 @@ export interface CardNFTMusicProps {
   isLiked?: boolean;
 }
 
+export const CardSkeleton = () => {
+  return (
+    <>
+      <SkeletonTheme
+        enableAnimation={true}
+        baseColor="#202020"
+        highlightColor="#444"
+      >
+        <Skeleton count={1} className="h-60 rounded-lg" />
+      </SkeletonTheme>
+    </>
+  );
+};
 const CardNFTMusic: FC<CardNFTMusicProps> = ({
   className = "",
   isLiked,
@@ -43,7 +57,7 @@ const CardNFTMusic: FC<CardNFTMusicProps> = ({
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">
       {loadingListings ? (
-        <div>Loading...</div>
+        [1, 2, 3, 4, 1, 2, 3, 4].map((d) => <CardSkeleton />)
       ) : (
         <>
           {listings?.map((listing) => (

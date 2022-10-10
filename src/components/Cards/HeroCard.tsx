@@ -10,6 +10,7 @@ import { useActiveListings, useMarketplace } from "@thirdweb-dev/react";
 import { MARKETPLACE_ID } from "key";
 
 import { AudioPlayerProvider } from "react-use-audio-player";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 export interface HeroCardProps {
   className?: string;
@@ -34,7 +35,6 @@ const HeroCard: FC<HeroCardProps> = ({
     musicMeta.push(listing.asset);
   });
   let rand = [musicMeta[Math.floor(Math.random() * musicMeta.length)]];
-  console.log(rand);
 
   return (
     <div>
@@ -43,7 +43,15 @@ const HeroCard: FC<HeroCardProps> = ({
       ))} */}
 
       {rand[0] === undefined ? (
-        <div>loading...</div>
+        <SkeletonTheme>
+          <SkeletonTheme
+            enableAnimation={true}
+            baseColor="#202020"
+            highlightColor="#444"
+          >
+            <Skeleton count={1} className="h-80 rounded-lg" />
+          </SkeletonTheme>
+        </SkeletonTheme>
       ) : (
         rand?.map((listing: any) => (
           <div

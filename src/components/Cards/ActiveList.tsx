@@ -13,6 +13,7 @@ import { MARKETPLACE_ID } from "key";
 import AudioPlayer from "../AudioPlayer";
 import { AudioPlayerProvider } from "react-use-audio-player";
 import CardNFTMusic2 from "components/CardNFTMusic2";
+import { CardSkeleton } from "./AllNFT";
 export interface ActiveListProps {
   className?: string;
   featuredImage?: string;
@@ -37,7 +38,7 @@ const ActiveList: FC<ActiveListProps> = ({
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10 ">
       {loadingListings ? (
-        <div>Loading...</div>
+        [1, 2, 3, 4, 1, 2, 3, 4].map((d) => <CardSkeleton />)
       ) : (
         <>
           {listings?.slice(0, 8).map((listing) => (

@@ -54,6 +54,13 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
     tokenId
   );
 
+  if (tokenId !== listings?.id) {
+    toast.error("Music is not listed on the marketplace");
+    setTimeout(() => {
+      history.push("/page-search");
+    }, 500);
+  }
+
   const buyNFT = async (id: any) => {
     if (isOnWrongNetwork) {
       switchNetwork && switchNetwork(ChainId.Mumbai);
@@ -97,7 +104,8 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
             highlightColor="#444"
           >
             <Skeleton count={1} />
-            <Skeleton count={1} className="h-80 rounded-full" />
+            <Skeleton count={2} className="h-20" />
+            <Skeleton count={2} className="h-40" />
           </SkeletonTheme>
         ) : (
           <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
@@ -286,14 +294,26 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
               {/* META FAVORITES */}
             </div>
 
-            <AccordionInfo
-              description={listings?.asset.description}
-              tokenId={listings?.asset.id._hex}
-              contractAddress={`${listings?.assetContractAddress.slice(
-                0,
-                6
-              )}...${listings?.assetContractAddress.slice(-4)}`}
-            />
+            {loadingListings ? (
+              <SkeletonTheme
+                enableAnimation={true}
+                baseColor="#202020"
+                highlightColor="#444"
+              >
+                <Skeleton count={1} />
+                <Skeleton count={2} className="h-20" />
+                <Skeleton count={2} className="h-40" />
+              </SkeletonTheme>
+            ) : (
+              <AccordionInfo
+                description={listings?.asset.description}
+                tokenId={listings?.asset.id._hex}
+                contractAddress={`${listings?.assetContractAddress.slice(
+                  0,
+                  6
+                )}...${listings?.assetContractAddress.slice(-4)}`}
+              />
+            )}
           </div>
 
           {/* SIDEBAR */}

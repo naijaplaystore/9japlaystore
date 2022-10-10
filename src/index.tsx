@@ -14,6 +14,8 @@ import { Provider } from "react-redux";
 import { persistor, store } from "app/store";
 import { PersistGate } from "redux-persist/integration/react";
 
+import "react-loading-skeleton/dist/skeleton.css";
+
 import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 
 // Public RPC node

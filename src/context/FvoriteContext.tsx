@@ -19,7 +19,7 @@ const FavoriteContext = createContext<AppContextInterface | object>({});
 
 export const FavoriteProvider = ({ children }: FavoriteProvider) => {
   const [user, setUser] = useState<instance>({});
-  const [allFavorite, setAllFavorite] = useState<instance>({});
+  const [allFavorite, setAllFavorite] = useState<instance[]>([]);
 
   const address = useAddress();
   //Fetch uSER

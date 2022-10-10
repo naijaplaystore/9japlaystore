@@ -4,6 +4,7 @@ import { useAddress } from "@thirdweb-dev/react";
 import UserContext from "context/UserContext";
 import FavoriteContext from "context/FvoriteContext";
 import toast from "react-hot-toast";
+import { useHistory } from "react-router-dom";
 
 export interface LikeButtonProps {
   className?: string;
@@ -27,6 +28,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   const address = useAddress();
   const { user }: any = useContext(UserContext);
   const { allFavorite }: any = useContext(FavoriteContext);
+  const history = useHistory();
   const favorite =
     allFavorite.length !== 0 &&
     allFavorite.find((favorite: any) => favorite.favorites_id);
@@ -94,12 +96,16 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   // };
 
   const onLike = (action: boolean) => {
-    !isLiked && favorite.favorites_id !== nftId
-      ? setIsLiked(action)
-      : setIsLiked(action);
-    !isLiked && favorite.favorites_id !== nftId
-      ? addFavorite()
-      : removeFavorite();
+    if (address !== undefined) {
+      !isLiked && favorite.favorites_id !== nftId
+        ? setIsLiked(action)
+        : setIsLiked(action);
+      !isLiked && favorite.favorites_id !== nftId
+        ? addFavorite()
+        : removeFavorite();
+    } else {
+      history.push("/connect-wallet");
+    }
   };
 
   return (

@@ -3,6 +3,8 @@ import UserContext from "context/UserContext";
 import React, { FC, useContext } from "react";
 import ButtonPrimary, { ButtonPrimaryProps } from "shared/Button/ButtonPrimary";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
+import { useAddress } from "@thirdweb-dev/react";
+import { useHistory } from "react-router-dom";
 
 export interface FollowButtonProps extends ButtonPrimaryProps {
   isFollowing?: boolean;
@@ -29,8 +31,9 @@ const FollowButton: FC<FollowButtonProps> = ({
     followers: [],
     address: "",
   });
-
-  // get followers Api
+  const address = useAddress();
+  const checkUser = address === undefined;
+  const history = useHistory();
   React.useEffect(() => {
     const getFollowesApi = async () => {
       let url = `https://naijaplaystore.pythonanywhere.com/get-or-update-followers/${user.id}/`;
@@ -39,9 +42,11 @@ const FollowButton: FC<FollowButtonProps> = ({
         .then((res) => {
           setIsFollowers(res.data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => err);
     };
-    getFollowesApi();
+    if (!checkUser) {
+      getFollowesApi();
+    }
   }, [user.id, isFollowers]);
 
   // Follow Api
@@ -55,7 +60,7 @@ const FollowButton: FC<FollowButtonProps> = ({
     axios
       .post(url, data)
       .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => err);
   };
 
   // update Follow Api
@@ -107,12 +112,16 @@ const FollowButton: FC<FollowButtonProps> = ({
 
   // Event
   const onFollow = (action: boolean) => {
-    !following && !isFollowers.followers.includes(userId as never)
-      ? setFollowing(action)
-      : setFollowing(action);
-    !following && !isFollowers.followers.includes(userId as never)
-      ? Follow()
-      : unFollow();
+    if (checkUser) {
+      history.push("/connect-wallet");
+    } else {
+      !following && !isFollowers.followers.includes(userId as never)
+        ? setFollowing(action)
+        : setFollowing(action);
+      !following && !isFollowers.followers.includes(userId as never)
+        ? Follow()
+        : unFollow();
+    }
   };
 
   return !following && !isFollowers.followers.includes(userId as never) ? (
