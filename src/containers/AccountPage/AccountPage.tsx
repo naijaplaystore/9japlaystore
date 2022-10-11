@@ -69,7 +69,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   // Function to get data
 
   // Function to handle input change
-  const url: string = `https://naijaplaystore.pythonanywhere.com/update/55/`;
+  const url: string = `https://naijaplaystore.pythonanywhere.com/update/${user.id}/`;
   const updateProfile = () => {
     const data = {
       profile_image: profileUrl,

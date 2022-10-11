@@ -75,13 +75,9 @@ const NcImage: FC<NcImageProps> = ({
     return (
       <div
         className={`${className} flex items-center justify-center bg-neutral-200 dark:bg-neutral-6000 text-neutral-100 dark:text-neutral-500`}
-        style={{ backgroundColor: __src ? undefined : _setBgColor(name) }}
       >
         <div className="h-2/4 max-w-[50%]">
-          {/* <PlaceIcon /> */}
-          <span className="wil-avatar__name text-6xl text-gray-200">
-            {name[0]}
-          </span>
+          <PlaceIcon />
         </div>
       </div>
     );
@@ -93,8 +89,21 @@ const NcImage: FC<NcImageProps> = ({
       data-nc-id="NcImage"
       ref={_containerRef}
     >
-      {__src && imageLoaded ? (
-        <img src={__src} className={className} alt={alt} {...args} />
+      {imageLoaded ? (
+        __src ? (
+          <img src={__src} className={className} alt={alt} {...args} />
+        ) : (
+          <div
+            className={`${className} flex items-center justify-center bg-neutral-200 dark:bg-neutral-6000 text-neutral-100 dark:text-neutral-500`}
+            style={{ backgroundColor: __src ? undefined : _setBgColor(name) }}
+          >
+            <div className="h-2/4 max-w-[50%]">
+              <span className="wil-avatar__name text-6xl text-gray-200">
+                {name[0]}
+              </span>
+            </div>
+          </div>
+        )
       ) : (
         renderLoadingPlaceholder()
       )}

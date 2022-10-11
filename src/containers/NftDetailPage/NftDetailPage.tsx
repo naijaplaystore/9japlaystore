@@ -19,7 +19,6 @@ import SectionBecomeAnAuthor from "components/SectionBecomeAnAuthor/SectionBecom
 import { useHistory, useParams } from "react-router-dom";
 import { MARKETPLACE_ID } from "key";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import {
   useListing,
   useMarketplace,

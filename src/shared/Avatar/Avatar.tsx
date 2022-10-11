@@ -45,7 +45,7 @@ const Avatar: FC<AvatarProps> = ({
       className={`wil-avatar relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner ${radius} ${sizeClass} ${containerClassName}`}
       style={{ backgroundColor: url ? undefined : _setBgColor(name) }}
     >
-      {address === user.address_id && (
+      {url && address === user.address_id && (
         <img
           className={`absolute inset-0 w-full h-full object-cover ${radius}`}
           src={url}

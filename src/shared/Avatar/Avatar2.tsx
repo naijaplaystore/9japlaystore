@@ -37,6 +37,7 @@ const Avatar2: FC<AvatarProps> = ({
     );
     return avatarColors[backgroundIndex];
   };
+  //   console.log(url);
 
   return (
     <div
