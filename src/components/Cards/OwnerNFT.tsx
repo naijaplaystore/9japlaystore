@@ -20,6 +20,7 @@ import { MARKETPLACE_ID, COLLECTION_ID } from "key";
 import AudioPlayer from "../AudioPlayer";
 import { AudioPlayerProvider } from "react-use-audio-player";
 import CardNFTMusic2 from "components/CardNFTMusic2";
+import { CardSkeleton } from "./AllNFT";
 export interface OwnerProps {
   className?: string;
   featuredImage?: string;
@@ -54,7 +55,7 @@ const OwnerNFT: FC<OwnerProps> = ({
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10 ">
       {isLoading ? (
-        <div>Loading...</div>
+        [1, 1, 1, 1].map((e) => <CardSkeleton />)
       ) : (
         <>
           {ownedNFTs?.map(

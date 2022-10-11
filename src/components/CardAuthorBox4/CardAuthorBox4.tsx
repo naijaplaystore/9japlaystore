@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import Avatar from "shared/Avatar/Avatar";
+import Avatar from "shared/Avatar/Avatar2";
 import NcImage from "shared/NcImage/NcImage";
 import { nftsAbstracts, personNames } from "contains/fakeData";
 import VerifyIcon from "components/VerifyIcon";
@@ -17,6 +17,7 @@ export interface CardAuthorBox4Props {
   address?: string;
   locate: number | undefined;
   userId: number | undefined;
+  userImg?: string;
 }
 
 const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
@@ -29,6 +30,7 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
   verified,
   locate,
   userId,
+  userImg,
 }) => {
   return (
     <div
@@ -76,6 +78,8 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
                 containerClassName=""
                 sizeClass="w-12 h-12 text-2xl"
                 radius="rounded-full"
+                urlProfile={userImg}
+                userName={username}
               />
             </div>
           </div>

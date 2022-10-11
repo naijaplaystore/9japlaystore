@@ -45,7 +45,7 @@ export const UserProvider = ({ children }: UserProvider) => {
 
   useEffect(() => {
     getAllUsers(address);
-  });
+  }, [address, user]);
 
   //   console.log(user);
   return (

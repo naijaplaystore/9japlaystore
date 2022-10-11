@@ -12,6 +12,7 @@ import { profile } from "console";
 import toast from "react-hot-toast";
 import SuccessMark from "shared/SuccessMark/SuccessMark";
 import UserContext from "context/UserContext";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 export interface AccountPageProps {
   className?: string;
@@ -27,6 +28,7 @@ export interface ProfileType {
   twitter?: string;
   instagram?: string;
   verifield?: boolean;
+  id?: number;
 }
 
 const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
@@ -41,16 +43,18 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [profileData, setProfileData] = useState<ProfileType>({
-    address_id: address,
     bio: "",
-    profile_image: profileUrl,
     username: "",
     email: "",
     website_link: "",
     twitter: "",
     instagram: "",
   });
-  // console.log(profileData);
+  const sdk = ThirdwebSDK.fromPrivateKey(
+    // Your wallet private key (read it in from .env.local file)
+    "aeeeb76e5199c2968c7baeb61052c09a3d39a6d1e0cd111693a57add6a20ae71",
+    "mumbai"
+  );
 
   // Fuction to copy address to clipbboard
   const copyAddress = () => {
@@ -65,51 +69,55 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   // Function to get data
 
   // Function to handle input change
-  const url: string = `https://naijaplaystore.pythonanywhere.com/update/${address}/`;
+  const url: string = `https://naijaplaystore.pythonanywhere.com/update/55/`;
   const updateProfile = () => {
-    // const header = {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // };
+    const data = {
+      profile_image: profileUrl,
+      id: user.id,
+      address_id: user.address_id,
+      bio: profileData.bio,
+      username: profileData.username,
+      email: profileData.email,
+      website_link: profileData.website_link,
+      twitter: profileData.twitter,
+      instagram: profileData.instagram,
+    };
+    const header = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
     setLoading(true);
-    // axios
-    //   .patch(url, profileData)
-    //   .then((res) => {
-    //     console.log(res);
-    //     // toast.dismiss();
-    //     toast.success("Your Profile is uploaded sucessful");
-    //     setLoading(false);
-    //     return;
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
-
-    axios({
-      method: "put",
-      data: profileData,
-      url: url,
-    })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err.message));
+    axios
+      .patch(url, data, header)
+      .then((res) => {
+        console.log(res);
+        // toast.dismiss();
+        toast.success("Your Profile is uploaded sucessful");
+        setLoading(false);
+        return;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   // loading && toast.loading("Loading.......");
 
   // console.log(profileUrl);
   // Profile image upload
-  const onProfileUpload = (e: any) => {
+  const onProfileUpload = async (e: any) => {
     const file = e.target.files[0];
-    // const result = await sdk.storage.upload(file);
-    // const url = `https://gateway.thirdweb.dev/ipfs/${result.uris[0].slice(7)}`;
+    const result = await sdk.storage.upload(file);
+    const url = `https://gateway.thirdweb.dev/ipfs/${result.uris[0].slice(7)}`;
 
-    setProfileUrl(file);
+    setProfileUrl(url);
     // setFileUrl(url);
     // toast.dismiss();
 
-    // toast.success("file uploaded sucessful!");
+    toast.success("file uploaded sucessful!");
   };
+  // console.log(profileUrl);
   return (
     <div className={`nc-AccountPage ${className}`} data-nc-id="AccountPage">
       <Helmet>
@@ -131,7 +139,12 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
           <div className="flex flex-col md:flex-row">
             <div className="flex-shrink-0 flex items-start">
               <div className="relative rounded-full overflow-hidden flex">
-                <Avatar sizeClass="w-32 h-32" />
+                <Avatar
+                  sizeClass="w-32 h-32"
+                  imgUrl={user.profile_image}
+                  urlProfile={profileUrl}
+                  userName={user.username}
+                />
                 <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-neutral-50 cursor-pointer">
                   <svg
                     width="30"
@@ -217,7 +230,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                   <Input
                     className="!rounded-l-none"
                     placeholder="yourwebsite.com"
-                    value={user.website_link}
+                    defaultValue={user.website_link}
                     onChange={(e) => {
                       setProfileData({
                         ...profileData,
@@ -259,7 +272,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                       className="!rounded-l-none"
                       placeholder="yourtwitter"
                       sizeClass="h-11 px-4 pl-2 pr-3"
-                      value={user.twitter}
+                      defaultValue={user.twitter}
                       onChange={(e) => {
                         setProfileData({
                           ...profileData,
@@ -279,7 +292,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                       className="!rounded-l-none"
                       placeholder="Instagram"
                       sizeClass="h-11 px-4 pl-2 pr-3"
-                      value={user.instagram}
+                      defaultValue={user.instagram}
                       onChange={(e) => {
                         setProfileData({
                           ...profileData,

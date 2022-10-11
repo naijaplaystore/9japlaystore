@@ -10,6 +10,7 @@ import ButtonSecondary from "shared/Button/ButtonSecondary";
 import Nav from "shared/Nav/Nav";
 import SortOrderFilter from "./SortOrderFilter";
 import axios from "axios";
+import { CardSkeleton } from "components/Cards/AllNFT";
 export interface SectionGridAuthorBoxProps {
   className?: string;
   sectionStyle?: "style1" | "style2";
@@ -23,6 +24,7 @@ interface Users {
   username?: string;
   verifield?: boolean;
   address_id?: any;
+  profile_image?: string;
 }
 
 const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
@@ -34,18 +36,23 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
 }) => {
   const [tabActive, setTabActive] = React.useState("Popular");
   const [users, setUsers] = React.useState<Users[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const getAllUsers = async () => {
+      setIsLoading(true);
       const response = await axios.get(
         "https://naijaplaystore.pythonanywhere.com/all-profiles/"
       );
       setUsers(response.data);
+      setIsLoading(false);
     };
     getAllUsers();
   }, [setUsers]);
 
-  // console.log(users);
+  const Loading = () => {
+    return isLoading && "loading....";
+  };
 
   const renderCard = (index: number) => {
     switch (boxCard) {
@@ -165,6 +172,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
       {sectionStyle === "style1" ? renderHeading1() : renderHeading2()}
       <div className={`grid gap-4 md:gap-7 ${gridClassName}`}>
         {data.map((_, index) => renderCard(index))}
+        {isLoading && [1, 1, 1, 1].map((e) => <CardSkeleton />)}
         {users.map((user, index) => (
           <CardAuthorBox4
             authorIndex={index < 3 ? index + 1 : undefined}
@@ -174,6 +182,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
             address={user.address_id}
             locate={user.address_id}
             userId={user.id}
+            userImg={user.profile_image}
           />
         ))}
       </div>

@@ -30,6 +30,7 @@ import youtube from "images/socials/youtube.svg";
 import useCopyToClipboard from "../../useHooks/useCopyToClipboard";
 import SuccessMark from "shared/SuccessMark/SuccessMark";
 import { useHistory, useParams } from "react-router-dom";
+import Avatar2 from "shared/Avatar/Avatar2";
 
 export interface AuthorPageProps {
   className?: string;
@@ -78,7 +79,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
         });
     };
     getProfile();
-  }, [address]);
+  }, [address, userAddress]);
   // coppy address
   const copyAddress = () => {
     copy(address);
@@ -108,7 +109,8 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
           <div className="relative bg-white dark:bg-neutral-900 dark:border dark:border-neutral-700 p-5 lg:p-8 rounded-3xl md:rounded-[40px] shadow-xl flex flex-col md:flex-row">
             <div className="w-32 lg:w-44 flex-shrink-0 mt-12 sm:mt-0">
               <NcImage
-                src={nftsImgs[2]}
+                src={profileData.profile_image}
+                userName={profileData.username}
                 containerClassName="aspect-w-1 aspect-h-1 rounded-3xl overflow-hidden"
               />
             </div>
