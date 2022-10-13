@@ -14,5 +14,4 @@ export const FollowerProvider = ({ children }: FollowerProviders) => {
     </FollowerContext.Provider>
   );
 };
-
 export default FollowerContext;

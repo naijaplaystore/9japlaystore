@@ -47,7 +47,7 @@ const FollowButton: FC<FollowButtonProps> = ({
     if (!checkUser) {
       getFollowesApi();
     }
-  }, [user.id, isFollowers]);
+  }, [user.id, isFollowers, checkUser]);
 
   // Follow Api
   const FollowApi = async () => {
@@ -75,7 +75,7 @@ const FollowButton: FC<FollowButtonProps> = ({
     axios
       .put(url, data)
       .then((res) => console.log(res))
-      .catch((err) => console.log(err.message));
+      .catch((err) => err);
   };
   // console.log(addFollowers);
 
@@ -92,7 +92,7 @@ const FollowButton: FC<FollowButtonProps> = ({
     axios
       .put(url, data)
       .then((res) => console.log(res))
-      .catch((err) => console.log(err.message));
+      .catch((err) => err);
   };
 
   // Follow user function

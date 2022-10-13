@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import Avatar from "shared/Avatar/Avatar2";
+import Avatar2 from "shared/Avatar/Avatar2";
 import NcImage from "shared/NcImage/NcImage";
 import { nftsAbstracts, personNames } from "contains/fakeData";
 import VerifyIcon from "components/VerifyIcon";
@@ -18,6 +18,7 @@ export interface CardAuthorBox4Props {
   locate: number | undefined;
   userId: number | undefined;
   userImg?: string;
+  userBg?: string;
 }
 
 const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
@@ -31,6 +32,7 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
   locate,
   userId,
   userImg,
+  userBg,
 }) => {
   return (
     <div
@@ -49,11 +51,19 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
             }
           />
         )} */}
-
-        <NcImage
-          containerClassName="flex h-full w-full flex-shrink-0 rounded-3xl overflow-hidden"
-          src={nftsAbstracts[Math.floor(Math.random() * nftsAbstracts.length)]}
-        />
+        {!userBg ? (
+          <NcImage
+            containerClassName="flex h-full w-full flex-shrink-0 rounded-3xl overflow-hidden"
+            src={
+              nftsAbstracts[Math.floor(Math.random() * nftsAbstracts.length)]
+            }
+          />
+        ) : (
+          <NcImage
+            containerClassName="flex h-full w-full flex-shrink-0 rounded-3xl overflow-hidden"
+            src={userBg}
+          />
+        )}
       </div>
 
       <div className="pb-5 px-4 pt-1.5">
@@ -74,7 +84,7 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
             </svg>
 
             <div className="absolute -top-7 left-1/2 -translate-x-1/2">
-              <Avatar
+              <Avatar2
                 containerClassName=""
                 sizeClass="w-12 h-12 text-2xl"
                 radius="rounded-full"

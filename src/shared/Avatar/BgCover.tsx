@@ -6,8 +6,9 @@ import VerifyIcon from "components/VerifyIcon";
 
 import UserContext from "context/UserContext";
 import { useAddress } from "@thirdweb-dev/react";
+import PlaceIcon from "shared/NcImage/PlaceIcon";
 
-export interface AvatarProps {
+export interface BgCoverProps {
   containerClassName?: string;
   sizeClass?: string;
   radius?: string;
@@ -18,7 +19,7 @@ export interface AvatarProps {
   urlProfile?: string;
 }
 
-const Avatar: FC<AvatarProps> = ({
+const BgCover: FC<BgCoverProps> = ({
   containerClassName = "ring-1 ring-white dark:ring-neutral-900",
   sizeClass = "h-6 w-6 text-sm",
   radius = "rounded-full",
@@ -32,13 +33,24 @@ const Avatar: FC<AvatarProps> = ({
   const address = useAddress();
   const url = urlProfile || imgUrl;
   const name = userName || "John Doe";
-  //   console.log(user);
 
   const _setBgColor = (name: string) => {
     const backgroundIndex = Math.floor(
       name.charCodeAt(0) % avatarColors.length
     );
     return avatarColors[backgroundIndex];
+  };
+
+  const renderLoadingPlaceholder = () => {
+    return (
+      <div
+        className={`flex items-center justify-center bg-neutral-200 dark:bg-neutral-6000 text-neutral-100 dark:text-neutral-500`}
+      >
+        <div className="h-2/4 max-w-[50%]">
+          <PlaceIcon />
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -56,12 +68,13 @@ const Avatar: FC<AvatarProps> = ({
 
       {url && address === user.address_id ? (
         <img
-          className={`absolute inset-0 w-full h-full object-cover ${radius}`}
+          className={`absolute inset-0 w-full h-full object-cover `}
           src={url}
           alt={name}
         />
       ) : (
-        <span className="wil-avatar__name">{name[0]}</span>
+        // <span className="wil-avatar__name">{name[0]}</span>
+        renderLoadingPlaceholder()
       )}
 
       {hasChecked && (
@@ -73,4 +86,4 @@ const Avatar: FC<AvatarProps> = ({
   );
 };
 
-export default Avatar;
+export default BgCover;

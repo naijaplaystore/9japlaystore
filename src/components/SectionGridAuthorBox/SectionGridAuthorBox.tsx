@@ -25,6 +25,7 @@ interface Users {
   verifield?: boolean;
   address_id?: any;
   profile_image?: string;
+  profile_header_image?: string;
 }
 
 const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
@@ -45,6 +46,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
         "https://naijaplaystore.pythonanywhere.com/all-profiles/"
       );
       setUsers(response.data);
+
       setIsLoading(false);
     };
     getAllUsers();
@@ -54,6 +56,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
     return isLoading && "loading....";
   };
 
+  // console.log(users);
   const renderCard = (index: number) => {
     switch (boxCard) {
       case "box1":
@@ -183,6 +186,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
             locate={user.address_id}
             userId={user.id}
             userImg={user.profile_image}
+            userBg={user.profile_header_image}
           />
         ))}
       </div>

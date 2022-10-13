@@ -29,7 +29,9 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
       console.error(err);
     }
   };
-  // saveAddress(address);
+  if (address !== undefined) {
+    saveAddress(address);
+  }
 
   return (
     <div className={`nc-MainNav2Logged relative z-10 ${"onTop "}`}>

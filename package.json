@@ -17,6 +17,7 @@
     "@testing-library/user-event": "^14.2.0",
     "@thirdweb-dev/react": "^2.6.3",
     "@thirdweb-dev/sdk": "^2.3.36",
+    "@thirdweb-dev/storage": "^1.0.4",
     "@types/glidejs__glide": "^3.4.2",
     "@types/jest": "^27.5.1",
     "@types/node": "^17.0.35",

@@ -10,6 +10,8 @@ import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import toast from "react-hot-toast";
 import { useHistory } from "react-router-dom";
 import { COLLECTION_ID } from "../key";
+import { ThirdwebStorage } from "@thirdweb-dev/storage";
+
 import {
   useNetworkMismatch,
   useNetwork,
@@ -17,7 +19,7 @@ import {
   useAddress,
   ChainId,
 } from "@thirdweb-dev/react";
-
+const storage = new ThirdwebStorage();
 export interface PageUploadItemProps {
   className?: string;
 }
@@ -56,8 +58,8 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
   async function onChange(e: any) {
     setIsLoading(true);
     const file = e.target.files[0];
-    const result = await sdk.storage.upload(file);
-    const url = `https://gateway.thirdweb.dev/ipfs/${result.uris[0].slice(7)}`;
+    const result = await storage.upload(file);
+    const url = storage.resolveScheme(result);
 
     setFileUrl(url);
     toast.dismiss();
@@ -74,8 +76,8 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
   async function onAudioUpload(e: any) {
     setIsLoading(true);
     const file = e.target.files[0];
-    const result = await sdk.storage.upload(file);
-    const url = `https://gateway.thirdweb.dev/ipfs/${result.uris[0].slice(7)}`;
+    const result = await storage.upload(file);
+    const url = storage.resolveScheme(result);
     toast.dismiss();
     setAudioUrl(url);
     toast.success("audio uploaded sucessful!");

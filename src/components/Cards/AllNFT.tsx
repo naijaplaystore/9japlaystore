@@ -57,7 +57,7 @@ const CardNFTMusic: FC<CardNFTMusicProps> = ({
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">
       {loadingListings ? (
-        [1, 2, 3, 4, 1, 2, 3, 4].map((d) => <CardSkeleton />)
+        [1, 2, 3, 4, 1, 2, 3, 4].map(() => <CardSkeleton />)
       ) : (
         <>
           {listings?.map((listing) => (

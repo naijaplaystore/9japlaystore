@@ -30,9 +30,9 @@ const Avatar: FC<AvatarProps> = ({
 }) => {
   const { user }: any = useContext(UserContext);
   const address = useAddress();
-  const url = urlProfile || user.profile_image;
-  const name = user.userName || "John Doe";
-
+  const url = user.profile_image;
+  const name = user.username || "John Doe";
+  // console.log(userName);
   const _setBgColor = (name: string) => {
     const backgroundIndex = Math.floor(
       name.charCodeAt(0) % avatarColors.length
@@ -45,15 +45,23 @@ const Avatar: FC<AvatarProps> = ({
       className={`wil-avatar relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner ${radius} ${sizeClass} ${containerClassName}`}
       style={{ backgroundColor: url ? undefined : _setBgColor(name) }}
     >
-      {url && address === user.address_id && (
+      {/* {url && address === user.address_id && (
         <img
           className={`absolute inset-0 w-full h-full object-cover ${radius}`}
           src={url}
           alt={name}
         />
       )}
-      <span className="wil-avatar__name">{name[0]}</span>
-
+      <span className="wil-avatar__name">{name[0]}</span> */}
+      {url && address === user.address_id ? (
+        <img
+          className={`absolute inset-0 w-full h-full object-cover ${radius}`}
+          src={url}
+          alt={name}
+        />
+      ) : (
+        <span className="wil-avatar__name">{name[0]}</span>
+      )}
       {hasChecked && (
         <span className={`  text-white  absolute  ${hasCheckedClass}`}>
           <VerifyIcon className="" />
