@@ -51,19 +51,18 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
             }
           />
         )} */}
-        {!userBg ? (
+        {
           <NcImage
             containerClassName="flex h-full w-full flex-shrink-0 rounded-3xl overflow-hidden"
             src={
-              nftsAbstracts[Math.floor(Math.random() * nftsAbstracts.length)]
+              !userBg
+                ? nftsAbstracts[
+                    Math.floor(Math.random() * nftsAbstracts.length)
+                  ]
+                : userBg
             }
           />
-        ) : (
-          <NcImage
-            containerClassName="flex h-full w-full flex-shrink-0 rounded-3xl overflow-hidden"
-            src={userBg}
-          />
-        )}
+        }
       </div>
 
       <div className="pb-5 px-4 pt-1.5">

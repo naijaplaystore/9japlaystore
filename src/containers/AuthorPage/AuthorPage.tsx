@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState } from "react";
+import React, { FC, Fragment, useState, useContext } from "react";
 import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import NcImage from "shared/NcImage/NcImage";
@@ -101,7 +101,12 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
         <div className="relative w-full h-40 md:h-60 2xl:h-72">
           <NcImage
             containerClassName="absolute inset-0"
-            src={authorBanner}
+            // src={authorBanner}
+            src={
+              !profileData.profile_header_image
+                ? authorBanner
+                : profileData.profile_header_image
+            }
             className="object-cover w-full h-full"
           />
         </div>
@@ -208,6 +213,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
                 isFollowing={false}
                 fontSize="text-sm md:text-base font-medium"
                 sizeClass="px-4 py-1 md:py-2.5 h-8 md:!h-10 sm:px-6 lg:px-8"
+                userId={profileData.id}
               />
             </div>
           </div>
