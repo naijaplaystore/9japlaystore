@@ -31,6 +31,7 @@ import useCopyToClipboard from "../../useHooks/useCopyToClipboard";
 import SuccessMark from "shared/SuccessMark/SuccessMark";
 import { useHistory, useParams } from "react-router-dom";
 import Avatar2 from "shared/Avatar/Avatar2";
+import FvoriteCard from "components/Cards/FavoriteCard";
 
 export interface AuthorPageProps {
   className?: string;
@@ -179,7 +180,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
                 >
                   {socialsDemo.map((item: any, i: number) => (
                     <>
-                      {item.href !== null && (
+                      {item.href !== null ? (
                         <SocialsList2
                           itemClass="block w-7 h-7"
                           key={i}
@@ -187,6 +188,8 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
                           icon={item.icon}
                           name={item.name}
                         />
+                      ) : (
+                        ""
                       )}
                     </>
                   ))}
@@ -294,7 +297,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
                     <CardNFT isLiked key={index} />
                   ))}
                 </div> */}
-                {checkIfUserLogin && <AllNFT />}
+                {checkIfUserLogin && <FvoriteCard />}
                 {!checkIfUserLogin &&
                   Array.from("11111111").map((_, index) => (
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-8 lg:mt-10">

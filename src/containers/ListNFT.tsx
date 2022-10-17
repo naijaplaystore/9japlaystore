@@ -78,7 +78,7 @@ const ListNFT: FC<ListNFTProps> = ({ className = "" }) => {
   const networkMismatch = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
 
-  !address && history.push("/");
+  // address === undefined && history.push("/");
 
   // Auction listing function
   const createAuctionListing = async () => {
