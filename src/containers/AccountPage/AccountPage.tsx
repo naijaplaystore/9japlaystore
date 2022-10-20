@@ -94,7 +94,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     };
     setLoading(true);
     axios
-      .put(url, data, header)
+      .patch(url, data, header)
       .then((res) => {
         console.log(res);
         // toast.dismiss();
