@@ -76,16 +76,16 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   const url: string = `https://naijaplaystore.pythonanywhere.com/update/${user.id}/`;
   const updateProfile = () => {
     const data = {
-      profile_image: profileUrl,
+      profile_image: profileUrl || user.profile_image,
       id: user.id,
       address_id: user.address_id,
-      bio: profileData.bio,
-      username: profileData.username,
-      email: profileData.email,
-      website_link: profileData.website_link,
-      twitter: profileData.twitter,
-      instagram: profileData.instagram,
-      profile_header_image: bgUrl,
+      bio: profileData.bio || user.bio,
+      username: profileData.username || user.username,
+      email: profileData.email || user.email,
+      website_link: profileData.website_link || user.website_link,
+      twitter: profileData.twitter || user.twitter,
+      instagram: profileData.instagram || user.instagram,
+      profile_header_image: bgUrl || user.profile_header_image,
     };
     const header = {
       headers: {
@@ -94,7 +94,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     };
     setLoading(true);
     axios
-      .patch(url, data, header)
+      .put(url, data, header)
       .then((res) => {
         console.log(res);
         // toast.dismiss();
@@ -118,8 +118,6 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     console.log(url);
 
     setProfileUrl(url);
-    // setFileUrl(url);
-    // toast.dismiss();
 
     toast.success("file uploaded sucessful!");
   };
@@ -129,12 +127,10 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     const file = e.target.files[0];
     const result = await storage.upload(file);
     const url = storage.resolveScheme(result);
-    // const url = `blob:https://thirdweb.com/${result.uris[0].slice(7)}`;
-    // console.log(url);
+
     setBgUrl(url);
     toast.success("file uploaded sucessful!");
   };
-  // console.log(profileUrl);
   return (
     <div className={`nc-AccountPage ${className}`} data-nc-id="AccountPage">
       <Helmet>
@@ -283,7 +279,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                   <Input
                     className="!rounded-l-none"
                     placeholder="yourwebsite.com"
-                    defaultValue={user.website_link}
+                    value={user.website_link}
                     onChange={(e) => {
                       setProfileData({
                         ...profileData,

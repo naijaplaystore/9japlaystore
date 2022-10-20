@@ -23,7 +23,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "", children }) => {
           </h2>
           <span className="text-base md:text-lg text-neutral-500 dark:text-neutral-400">
             Discover the most outstanding NTFs in Music. <br />
-            Buy, sell, and earn
+            Buy, sell, and Earn
           </span>
           <div className="space-x-4">
             <ButtonPrimary
