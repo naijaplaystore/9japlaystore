@@ -123,10 +123,10 @@ const OwnerNFT: FC<OwnerProps> = ({
                 </div>
               </div>
 
-              <Link
+              {/* <Link
                 to={`/nft-detailt/${nft.metadata.id.toNumber()}`}
                 className="absolute inset-0 "
-              ></Link>
+              ></Link> */}
             </div>
           ))}
         </>

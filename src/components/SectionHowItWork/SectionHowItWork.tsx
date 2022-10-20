@@ -19,21 +19,21 @@ const DEMO_DATA = [
     img: HIW2img,
     imgDark: HIW2img,
     title: "Connect wallet",
-    desc: "Connect with wallet, discover, buy NTFs, sell your NFTs and earn money",
+    desc: "Connect with wallet, ",
   },
   {
     id: 2,
     img: HIW3img,
     imgDark: HIW3img,
     title: "Start trading",
-    desc: "Connect with wallet, discover, buy NTFs, sell your NFTs and earn money",
+    desc: "discover, buy NTFs, ",
   },
   {
     id: 3,
     img: HIW4img,
     imgDark: HIW4img,
     title: "Earn money",
-    desc: "Connect with wallet, discover, buy NTFs, sell your NFTs and earn money",
+    desc: "sell your NFTs and earn money",
   },
 ];
 

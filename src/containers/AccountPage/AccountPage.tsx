@@ -130,7 +130,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     const result = await storage.upload(file);
     const url = storage.resolveScheme(result);
     // const url = `blob:https://thirdweb.com/${result.uris[0].slice(7)}`;
-    console.log(url);
+    // console.log(url);
     setBgUrl(url);
     toast.success("file uploaded sucessful!");
   };
@@ -138,7 +138,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   return (
     <div className={`nc-AccountPage ${className}`} data-nc-id="AccountPage">
       <Helmet>
-        <title>Account || Ciscryp React Template</title>
+        <title>Account || NaijaPlaystore</title>
       </Helmet>
       <div className="container">
         <div className="my-12 sm:lg:my-16 lg:my-24 max-w-4xl mx-auto space-y-8 sm:space-y-10">

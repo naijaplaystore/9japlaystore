@@ -1,21 +1,30 @@
 import { SocialType } from "shared/SocialsShare/SocialsShare";
 import React, { FC } from "react";
 import facebook from "images/socials/facebook.svg";
-import vimeo from "images/socials/vimeo.svg";
+import instagram from "images/socials/instagram.svg";
 import twitter from "images/socials/twitter.svg";
-import telegram from "images/socials/telegram.svg";
-import youtube from "images/socials/youtube.svg";
 
 export interface SocialsList1Props {
   className?: string;
 }
 
 const socials: SocialType[] = [
-  { name: "Facebook", icon: facebook, href: "#" },
-  { name: "Vimeo", icon: vimeo, href: "#" },
-  { name: "Youtube", icon: youtube, href: "#" },
-  { name: "Telegram", icon: telegram, href: "#" },
-  { name: "Twitter", icon: twitter, href: "#" },
+  {
+    name: "Facebook",
+    icon: facebook,
+    href: "https://www.facebook.com/profile.php?id=100076152589579",
+  },
+  {
+    name: "instagram",
+    icon: instagram,
+    href: "https://www.instagram.com/tv/Chefw_fqvYW/?igshid=YmMyMTA2M2Y=",
+  },
+
+  {
+    name: "Twitter",
+    icon: twitter,
+    href: "https://twitter.com/naijaplaystore?t=MSvF0GVq4kE0o0C7zzp0_Q&s=09",
+  },
 ];
 
 const SocialsList1: FC<SocialsList1Props> = ({ className = "space-y-3" }) => {

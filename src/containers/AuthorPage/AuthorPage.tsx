@@ -47,11 +47,11 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
     "Collectibles",
     // "Created",
     "Liked",
-    "Following",
-    "Followers",
+    // "Following",
+    // "Followers",
   ]);
 
-  let [categories1] = useState(["Collectibles", "Following", "Followers"]);
+  let [categories1] = useState(["Collectibles"]);
   const [profileData, setProfileData] = useState<ProfileType>({});
   const [value, copy] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState<boolean>(true);
@@ -94,7 +94,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
   return (
     <div className={`nc-AuthorPage  ${className}`} data-nc-id="AuthorPage">
       <Helmet>
-        <title>Creator || Ciscryp NFT Template</title>
+        <title>Creator || Naijaplaystore</title>
       </Helmet>
 
       {/* HEADER */}

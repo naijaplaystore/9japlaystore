@@ -19,11 +19,11 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "", children }) => {
       <div className="flex flex-col lg:flex-row lg:items-center">
         <div className="flex-shrink-0 lg:w-1/2 flex flex-col items-start space-y-8 sm:space-y-10 pb-14 lg:pb-0  xl:pb-0 xl:pr-14 lg:mr-10 xl:mr-0 ">
           <h2 className="font-semibold text-4xl md:text-5xl xl:text-6xl !leading-[114%] ">
-            Discover, collect, and sell NFT Music 🎧
+            Buy, Sell make money with music 🎧 you love
           </h2>
           <span className="text-base md:text-lg text-neutral-500 dark:text-neutral-400">
-            Discover the most outstanding NTFs in all topics of life. <br />{" "}
-            Creative your NTFs and sell them
+            Discover the most outstanding NTFs in Music. <br />
+            Buy, sell, and earn
           </span>
           <div className="space-x-4">
             <ButtonPrimary

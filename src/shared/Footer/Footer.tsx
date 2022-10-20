@@ -15,50 +15,50 @@ const widgetMenus: WidgetFooterMenu[] = [
     id: "5",
     title: "Getting started",
     menus: [
-      { href: "#", label: "Installation" },
-      { href: "#", label: "Release Notes" },
-      { href: "#", label: "Upgrade Guide" },
-      { href: "#", label: "Browser Support" },
-      { href: "#", label: "Editor Support" },
-      { href: "#", label: "Dark Mode" },
+      { href: "#", label: "Connect Wallet" },
+      { href: "#", label: "Buy Music" },
+      { href: "#", label: "Sell Music" },
+      // { href: "#", label: "Browser Support" },
+      // { href: "#", label: "Editor Support" },
+      // { href: "#", label: "Dark Mode" },
     ],
   },
   {
     id: "1",
     title: "Explore",
     menus: [
-      { href: "#", label: "Design features" },
-      { href: "#", label: "Prototyping" },
-      { href: "#", label: "Design systems" },
-      { href: "#", label: "Pricing" },
-      { href: "#", label: "Customers" },
-      { href: "#", label: "Security" },
+      { href: "#", label: "Marketplace" },
+      { href: "#", label: "List Music" },
+      { href: "#", label: "Profile" },
+      // { href: "#", label: "Pricing" },
+      // { href: "#", label: "Customers" },
+      // { href: "#", label: "Security" },
     ],
   },
-  {
-    id: "2",
-    title: "Resources",
-    menus: [
-      { href: "#", label: "Best practices" },
-      { href: "#", label: "Support" },
-      { href: "#", label: "Developers" },
-      { href: "#", label: "Learn design" },
-      { href: "#", label: "What's new" },
-      { href: "#", label: "Releases" },
-    ],
-  },
-  {
-    id: "4",
-    title: "Community",
-    menus: [
-      { href: "#", label: "Discussion Forums" },
-      { href: "#", label: "Code of Conduct" },
-      { href: "#", label: "Community Resources" },
-      { href: "#", label: "Contributing" },
-      { href: "#", label: "Concurrent Mode" },
-      { href: "#", label: "API Reference" },
-    ],
-  },
+  // {
+  //   id: "2",
+  //   title: "Resources",
+  //   menus: [
+  //     { href: "#", label: "Best practices" },
+  //     { href: "#", label: "Support" },
+  //     { href: "#", label: "Developers" },
+  //     { href: "#", label: "Learn design" },
+  //     { href: "#", label: "What's new" },
+  //     { href: "#", label: "Releases" },
+  //   ],
+  // },
+  // {
+  //   id: "4",
+  //   title: "Community",
+  //   menus: [
+  //     { href: "#", label: "Discussion Forums" },
+  //     { href: "#", label: "Code of Conduct" },
+  //     { href: "#", label: "Community Resources" },
+  //     { href: "#", label: "Contributing" },
+  //     { href: "#", label: "Concurrent Mode" },
+  //     { href: "#", label: "API Reference" },
+  //   ],
+  // },
 ];
 
 const Footer: React.FC = () => {
@@ -89,8 +89,8 @@ const Footer: React.FC = () => {
   return (
     <>
       {location.pathname !== "/page-search" && (
-        <div className="nc-Footer relative py-20 lg:pt-32 lg:pb-28 border-t border-neutral-200 dark:border-neutral-700">
-          <div className="container grid grid-cols-2 gap-y-10 gap-x-5 sm:gap-x-8 md:grid-cols-4 lg:grid-cols-5 lg:gap-x-10 ">
+        <div className="nc-Footer relative py-20 lg:pt-20 lg:pb-10 border-t border-neutral-200 dark:border-neutral-700">
+          <div className="container grid grid-cols-2 gap-y-10 gap-x-5 sm:gap-x-8 md:grid-cols-4 lg:grid-cols-3 lg:gap-x-10 ">
             <div className="grid grid-cols-4 gap-5 col-span-2 md:col-span-4 lg:md:col-span-1 lg:flex lg:flex-col">
               <div className="col-span-2 md:col-span-1">
                 <Logo />

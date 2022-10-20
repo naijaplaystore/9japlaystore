@@ -82,6 +82,8 @@ const PageConnectWallet: FC<PageConnectWalletProps> = ({ className = "" }) => {
               Connect your wallet.
             </h2>
             <span className="block mt-3 text-neutral-500 dark:text-neutral-400">
+              we are glad you are here at NaijaPlaystore and welcome you. you
+              can now stream your prefered NFT music or audio and buy them.
               Connect with one of our available wallet providers or create a new
               one.
             </span>
