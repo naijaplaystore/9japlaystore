@@ -4,20 +4,37 @@ import MenuBar from "shared/MenuBar/MenuBar";
 import SwitchDarkMode from "shared/SwitchDarkMode/SwitchDarkMode";
 import NotifyDropdown from "./NotifyDropdown";
 import AvatarDropdown from "./AvatarDropdown";
+import SearchModal from "../SearchModal";
+import SearchAutoComplete from "../SearchAutoComplete";
 import Input from "shared/Input/Input";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import Navigation from "shared/Navigation/Navigation";
-import { useAddress } from "@thirdweb-dev/react";
+import { useAddress, useListings, useMarketplace } from "@thirdweb-dev/react";
 import { Link } from "react-router-dom";
-import useFetch from "../../useHooks/useFetch";
+// import useSearch from "../../useHooks/useSearch";
 import axios from "axios";
+
+import { MARKETPLACE_ID } from "key";
 
 export interface MainNav2LoggedProps {}
 
 const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
+  const marketplace = useMarketplace(
+    MARKETPLACE_ID // Your marketplace contract address here
+  );
+
   //Connect your wallet
   const address: any = useAddress();
+  const [searchData, setSearchData] = React.useState<any>([]);
+  const { data: listings, isLoading: loadingListings } =
+    useListings(marketplace);
+  const [isSearch, setIsSearch] = React.useState(false);
+  const closeModalSearch = () => setIsSearch(false);
 
+  // const [searchData]: any = useSearch(listings as any, "Lover bird");
+
+  // console.log(searchData);
+  // console.log(listings);
   // Hooks init
 
   const saveAddress = async (addr: any) => {
@@ -33,6 +50,17 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
     saveAddress(address);
   }
 
+  const searchNft = (e: any) => {
+    const listing = listings?.filter((data) => {
+      return data.asset.name?.toLowerCase().includes(e.target.value);
+    });
+    // .forEach((e) => {
+    //   setSearchData(e);
+    // });
+    console.log(listings);
+    // setSearchData(listing);
+  };
+
   return (
     <div className={`nc-MainNav2Logged relative z-10 ${"onTop "}`}>
       <div className="container py-5 relative flex justify-between items-center space-x-4 xl:space-x-8">
@@ -40,13 +68,20 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
           <Logo />
           <div className="hidden sm:block flex-grow max-w-xs">
             <form action="" method="POST" className="relative">
-              <Input
+              {/* <Input
                 type="search"
                 placeholder="Search items"
                 className="pr-10 w-full"
                 sizeClass="h-[42px] pl-4 py-3"
+                onChange={searchNft}
               />
-              <span className="absolute top-1/2 -translate-y-1/2 right-3 text-neutral-500">
+
+              <SearchModal
+                show={isSearch}
+                onCloseModalReportItem={closeModalSearch}
+              />
+              <SearchAutoComplete searchData={searchData} /> */}
+              {/* <span className="absolute top-1/2 -translate-y-1/2 right-3 text-neutral-500">
                 <svg
                   className="h-5 w-5"
                   viewBox="0 0 24 24"
@@ -68,7 +103,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </span>
+              </span> */}
               <input type="submit" hidden value="" />
             </form>
           </div>
@@ -79,7 +114,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
             <div className="hidden sm:block h-6 border-l border-neutral-300 dark:border-neutral-6000"></div>
             <div className="flex">
               <SwitchDarkMode />
-              <NotifyDropdown />
+              {/* <NotifyDropdown /> */}
             </div>
             <div></div>
             {!address ? (

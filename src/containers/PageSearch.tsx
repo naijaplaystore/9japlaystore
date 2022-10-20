@@ -48,7 +48,7 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
               >
                 <i className="las la-arrow-right text-xl"></i>
               </ButtonCircle>
-              <span className="absolute left-5 top-1/2 transform -translate-y-1/2 text-2xl md:left-6">
+              {/* <span className="absolute left-5 top-1/2 transform -translate-y-1/2 text-2xl md:left-6">
                 <svg
                   className="h-5 w-5"
                   viewBox="0 0 24 24"
@@ -70,7 +70,7 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </span>
+              </span> */}
             </label>
           </form>
         </header>
@@ -79,7 +79,7 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
       <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 lg:space-y-28">
         <main>
           {/* FILTER */}
-          <HeaderFilterSearchPage />
+          {/* <HeaderFilterSearchPage /> */}
 
           <CardNFTMusic />
 

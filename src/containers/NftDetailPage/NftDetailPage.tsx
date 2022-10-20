@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from "react";
 import Avatar from "shared/Avatar/Avatar";
+import Avatar2 from "shared/Avatar/Avatar2";
 import Badge from "shared/Badge/Badge";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
@@ -29,6 +30,8 @@ import {
 } from "@thirdweb-dev/react";
 import DetailCard from "components/Cards/DetailCard";
 import toast from "react-hot-toast";
+import axios from "axios";
+import ActiveList from "components/Cards/ActiveList";
 
 export interface NftDetailPageProps {
   className?: string;
@@ -42,6 +45,7 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
   const [isLoading, setIsLoading] = React.useState(false);
   const { tokenId }: any = useParams();
   const history = useHistory();
+  const [user, setUser] = React.useState<any>(null);
 
   const marketplace = useMarketplace(MARKETPLACE_ID);
   const address = useAddress();
@@ -53,12 +57,12 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
     tokenId
   );
 
-  if (tokenId !== listings?.id) {
-    toast.error("Music is not listed on the marketplace");
-    setTimeout(() => {
-      history.push("/page-search");
-    }, 500);
-  }
+  // if (tokenId !== listings?.id) {
+  //   toast.error("Music is not listed on the marketplace");
+  //   setTimeout(() => {
+  //     history.push("/page-search");
+  //   }, 500);
+  // }
 
   const buyNFT = async (id: any) => {
     if (isOnWrongNetwork) {
@@ -92,7 +96,28 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
 
   isLoading && toast.loading("Transaction is processing...");
   // tokenId !== listings?.id && history.push("/list-NFT");
-
+  // console.log(listings);
+  // console.log(listings?.startTimeInSeconds.toString());
+  useEffect(() => {
+    const getUsers = () => {
+      axios
+        .get(
+          `https://naijaplaystore.pythonanywhere.com/create-account/${listings?.sellerAddress}`
+        )
+        .then((result) => {
+          setUser(result.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    if (listings?.sellerAddress === undefined) {
+      console.log("loading....");
+    } else {
+      getUsers();
+    }
+  }, [listings?.sellerAddress]);
+  // console.log(user);
   const renderSection1 = () => {
     return (
       <>
@@ -126,19 +151,25 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
               {/* ---------- 4 ----------  */}
               <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-8 text-sm">
                 <div className="flex items-center ">
-                  <Avatar sizeClass="h-9 w-9" radius="rounded-full" />
+                  {user !== null && (
+                    <Avatar2
+                      imgUrl={user.profile_image}
+                      sizeClass="h-9 w-9"
+                      radius="rounded-full"
+                    />
+                  )}
                   <span className="ml-2.5 text-neutral-500 dark:text-neutral-400 flex flex-col">
                     <span className="text-sm">Creator</span>
                     <span className="text-neutral-900 dark:text-neutral-200 font-medium flex items-center">
-                      <span>{personNames[1]}</span>
-                      <VerifyIcon iconClass="w-4 h-4" />
+                      {user !== null && <span>{user.username}</span>}
+                      {user !== null && user.verifield && <VerifyIcon />}
                     </span>
                   </span>
                 </div>
                 <div className="hidden sm:block h-6 border-l border-neutral-200 dark:border-neutral-700"></div>
-                <div className="flex items-center">
-                  <Avatar
-                    imgUrl={collectionPng}
+                {/* <div className="flex items-center">
+                  <Avatar2
+                    imgUrl={user.profile_image}
                     sizeClass="h-9 w-9"
                     radius="rounded-full"
                   />
@@ -149,14 +180,14 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
                       <VerifyIcon iconClass="w-4 h-4" />
                     </span>
                   </span>
-                </div>
+                </div> */}
               </div>
             </div>
 
             {/* ---------- 6 ----------  */}
-            <div className="py-9">
+            {/* <div className="py-9">
               <TimeCountDown />
-            </div>
+            </div> */}
 
             {/* ---------- 7 ----------  */}
             {/* PRICE */}
@@ -328,7 +359,8 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
           {/* SECTION 1 */}
           <div className="relative py-24 lg:py-28">
             <BackgroundSection />
-            <SectionSliderCategories />
+            <ActiveList />
+            {/* <SectionSliderCategories /> */}
           </div>
 
           {/* SECTION */}

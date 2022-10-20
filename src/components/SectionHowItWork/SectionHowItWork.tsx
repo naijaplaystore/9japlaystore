@@ -2,9 +2,9 @@ import React, { FC } from "react";
 import Heading from "components/Heading/Heading";
 import NcImage from "shared/NcImage/NcImage";
 import HIW1img from "images/HIW1img.png";
-import HIW2img from "images/HIW2img.png";
-import HIW3img from "images/HIW3img.png";
-import HIW4img from "images/HIW4img.png";
+import HIW2img from "images/9japlay/connect.png";
+import HIW3img from "images/9japlay/buy&sell.png";
+import HIW4img from "images/9japlay/earn.png";
 import VectorImg from "images/VectorHIW.svg";
 import Badge from "shared/Badge/Badge";
 
@@ -16,27 +16,20 @@ export interface SectionHowItWorkProps {
 const DEMO_DATA = [
   {
     id: 1,
-    img: HIW1img,
-    imgDark: HIW1img,
-    title: "Filter & Discover",
-    desc: "Connect with wallet, discover, buy NTFs, sell your NFTs and earn money",
-  },
-  {
-    id: 2,
     img: HIW2img,
     imgDark: HIW2img,
     title: "Connect wallet",
     desc: "Connect with wallet, discover, buy NTFs, sell your NFTs and earn money",
   },
   {
-    id: 3,
+    id: 2,
     img: HIW3img,
     imgDark: HIW3img,
     title: "Start trading",
     desc: "Connect with wallet, discover, buy NTFs, sell your NFTs and earn money",
   },
   {
-    id: 4,
+    id: 3,
     img: HIW4img,
     imgDark: HIW4img,
     title: "Earn money",
@@ -59,7 +52,7 @@ const SectionHowItWork: FC<SectionHowItWorkProps> = ({
       >
         How it works
       </Heading>
-      <div className="relative grid sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-16 xl:gap-20">
+      <div className="relative grid sm:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-16 xl:gap-20">
         <img
           className="hidden md:block absolute inset-x-0 -top-1"
           src={VectorImg}
@@ -79,7 +72,7 @@ const SectionHowItWork: FC<SectionHowItWorkProps> = ({
                 name={`Step ${index + 1}`}
                 color={
                   !index
-                    ? "blue"
+                    ? "green"
                     : index === 1
                     ? "pink"
                     : index === 2

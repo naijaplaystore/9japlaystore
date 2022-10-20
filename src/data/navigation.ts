@@ -2,7 +2,7 @@ import { NavItemType } from "shared/Navigation/NavigationItem";
 import ncNanoId from "utils/ncNanoId";
 
 const otherPageChildMenus: NavItemType[] = [
- 
+
   // {
   //   id: ncNanoId(),
   //   href: "/page-collection",
@@ -13,8 +13,8 @@ const otherPageChildMenus: NavItemType[] = [
   //   href: "/page-search",
   //   name: "Explore",
   // },
- 
- 
+
+
 
   // {
   //   id: ncNanoId(),
@@ -32,21 +32,8 @@ const otherPageChildMenus: NavItemType[] = [
   //       href: "/contact",
   //       name: "Contact us",
   //     },
-  //     {
-  //       id: ncNanoId(),
-  //       href: "/login",
-  //       name: "Login",
-  //     },
-  //     {
-  //       id: ncNanoId(),
-  //       href: "/signup",
-  //       name: "Signup",
-  //     },
-  //     {
-  //       id: ncNanoId(),
-  //       href: "/subscription",
-  //       name: "Subscription",
-  //     },
+
+
   //   ],
   // },
   // {
@@ -79,7 +66,17 @@ export const NAVIGATION_DEMO_2: NavItemType[] = [
   },
   // {
   //   id: ncNanoId(),
-  //   href: "/#",
-  //   name: "Help center",
+  //   href: "/about",
+  //   name: "About",
   // },
+];
+
+export const NAVIGATION_DEMO_3: NavItemType[] = [
+  ...NAVIGATION_DEMO_2,
+  {
+    id: ncNanoId(),
+    href: "/list-NFT",
+    name: "List Muisc",
+  },
+
 ];
