@@ -191,11 +191,10 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
 
             <div>
               <h3 className="text-lg sm:text-2xl font-semibold">
-                Image, Video, Audio, or 3D Model
+                Image, Audio
               </h3>
               <span className="text-neutral-500 dark:text-neutral-400 text-sm">
-                File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV,
-                OGG, GLB, GLTF. Max size: 100 MB
+                File types supported: JPG, PNG, GIF, MP3,
               </span>
               <div className="mt-5 ">
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-6000 border-dashed rounded-xl">
@@ -225,7 +224,7 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
                           name="file-upload"
                           type="file"
                           className="sr-only"
-                          accept="image/png, image/jpeg"
+                          accept="image/png, image/jpeg, image/gif"
                           onChange={onChange}
                         />
                       </label>
@@ -291,7 +290,7 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
               enabled
               label={
                 listing === "listNFT"
-                  ? "List your music to nijaplaystore"
+                  ? "List your music to Naijaplaystore"
                   : "Mint your music and list later"
               }
               desc={

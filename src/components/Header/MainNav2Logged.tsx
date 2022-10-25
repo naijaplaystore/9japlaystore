@@ -4,13 +4,11 @@ import MenuBar from "shared/MenuBar/MenuBar";
 import SwitchDarkMode from "shared/SwitchDarkMode/SwitchDarkMode";
 import NotifyDropdown from "./NotifyDropdown";
 import AvatarDropdown from "./AvatarDropdown";
-import SearchModal from "../SearchModal";
-import SearchAutoComplete from "../SearchAutoComplete";
 import Input from "shared/Input/Input";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import Navigation from "shared/Navigation/Navigation";
 import { useAddress, useListings, useMarketplace } from "@thirdweb-dev/react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 // import useSearch from "../../useHooks/useSearch";
 import axios from "axios";
 
@@ -25,18 +23,13 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
 
   //Connect your wallet
   const address: any = useAddress();
+  const history = useHistory();
   const [searchData, setSearchData] = React.useState<any>([]);
   const { data: listings, isLoading: loadingListings } =
     useListings(marketplace);
   const [isSearch, setIsSearch] = React.useState(false);
-  const closeModalSearch = () => setIsSearch(false);
 
-  // const [searchData]: any = useSearch(listings as any, "Lover bird");
-
-  // console.log(searchData);
-  // console.log(listings);
-  // Hooks init
-
+  // Save address to database
   const saveAddress = async (addr: any) => {
     const url = `https://naijaplaystore.pythonanywhere.com/create-account/${addr}`;
     try {
@@ -50,15 +43,21 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
     saveAddress(address);
   }
 
+  // Search Nfts
   const searchNft = (e: any) => {
     const listing = listings?.filter((data) => {
       return data.asset.name?.toLowerCase().includes(e.target.value);
     });
-    // .forEach((e) => {
-    //   setSearchData(e);
-    // });
-    console.log(listings);
-    // setSearchData(listing);
+
+    setIsSearch(true);
+
+    console.log(listing);
+    e.target.value === "" ? setSearchData([]) : setSearchData(listing);
+  };
+  // View music nft
+  const onViewMusic = (id: number) => {
+    history.push(`/nft-detailt/${id}`);
+    setIsSearch(false);
   };
 
   return (
@@ -66,46 +65,47 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
       <div className="container py-5 relative flex justify-between items-center space-x-4 xl:space-x-8">
         <div className="flex justify-start flex-grow items-center space-x-3 sm:space-x-8 lg:space-x-10">
           <Logo />
-          <div className="hidden sm:block flex-grow max-w-xs">
-            <form action="" method="POST" className="relative">
-              {/* <Input
+          <div className="hidden sm:block flex-grow max-w-xs relative">
+            <form>
+              <Input
                 type="search"
                 placeholder="Search items"
                 className="pr-10 w-full"
                 sizeClass="h-[42px] pl-4 py-3"
                 onChange={searchNft}
               />
-
-              <SearchModal
-                show={isSearch}
-                onCloseModalReportItem={closeModalSearch}
-              />
-              <SearchAutoComplete searchData={searchData} /> */}
-              {/* <span className="absolute top-1/2 -translate-y-1/2 right-3 text-neutral-500">
-                <svg
-                  className="h-5 w-5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M22 22L20 20"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span> */}
               <input type="submit" hidden value="" />
             </form>
+            {isSearch && (
+              <div className="absolute w-full dark:bg-[#111827] bg-gray-100 z-50 ">
+                {loadingListings ? (
+                  <p>loading music.....</p>
+                ) : (
+                  searchData?.map((data: any) => (
+                    <div
+                      className=" "
+                      key={data.id}
+                      onClick={() => {
+                        onViewMusic(data.id);
+                      }}
+                    >
+                      <div className="p-2 dark:hover:bg-gray-200 hover:bg-[#111827] dark:hover:text-gray-900 hover:text-gray-200 cursor-pointer rounded-md">
+                        <div className="flex gap-2">
+                          <img
+                            src={data.asset.image}
+                            alt="nft img"
+                            width={50}
+                            height={50}
+                            className="rounded-full"
+                          />
+                          <p className="py-3"> {data.asset.name}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
           </div>
         </div>
         <div className="flex-shrink-0 flex items-center justify-end text-neutral-700 dark:text-neutral-100 space-x-1">

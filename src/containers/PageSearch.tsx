@@ -9,12 +9,34 @@ import HeaderFilterSearchPage from "components/HeaderFilterSearchPage";
 import Input from "shared/Input/Input";
 import ButtonCircle from "shared/Button/ButtonCircle";
 import CardNFTMusic from "components/Cards/AllNFT";
+import { useActiveListings, useMarketplace } from "@thirdweb-dev/react";
+import { MARKETPLACE_ID } from "key";
+import SearchCards from "components/Cards/SearchCards";
 
 export interface PageSearchProps {
   className?: string;
 }
 
 const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
+  // Connect your marketplace smart contract here (replace this address)
+  const marketplace = useMarketplace(
+    MARKETPLACE_ID // Your marketplace contract address here
+  );
+  const { data: listings, isLoading: loadingListings } =
+    useActiveListings(marketplace);
+
+  const [searchData, setSearchData] = React.useState<any>([]);
+  const [isSearch, setIsSearch] = React.useState(false);
+
+  // Search Nfts
+  const searchNft = (e: any) => {
+    const listing = listings?.filter((data) => {
+      return data.asset.name?.toLowerCase().includes(e.target.value);
+    });
+    setIsSearch(true);
+    e.target.value === "" ? setSearchData([]) : setSearchData(listing);
+  };
+
   return (
     <div className={`nc-PageSearch  ${className}`} data-nc-id="PageSearch">
       <Helmet>
@@ -37,9 +59,10 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
                 className="shadow-lg border-0 dark:border"
                 id="search-input"
                 type="search"
-                placeholder="Type your keywords"
+                placeholder="Search for your favorite music NFT"
                 sizeClass="pl-14 py-5 pr-5 md:pl-16"
                 rounded="rounded-full"
+                onChange={searchNft}
               />
               <ButtonCircle
                 className="absolute right-2.5 top-1/2 transform -translate-y-1/2"
@@ -81,7 +104,11 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
           {/* FILTER */}
           {/* <HeaderFilterSearchPage /> */}
 
-          <CardNFTMusic />
+          {searchData.length !== 0 ? (
+            <SearchCards nfts={searchData} loading={loadingListings} />
+          ) : (
+            <CardNFTMusic />
+          )}
 
           {/* PAGINATION */}
           {/* <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">

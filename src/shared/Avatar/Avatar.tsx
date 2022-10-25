@@ -30,7 +30,7 @@ const Avatar: FC<AvatarProps> = ({
 }) => {
   const { user }: any = useContext(UserContext);
   const address = useAddress();
-  const url = user.profile_image;
+  const url = user.profile_image || urlProfile;
   const name = user.username || "John Doe";
   // console.log(userName);
   const _setBgColor = (name: string) => {

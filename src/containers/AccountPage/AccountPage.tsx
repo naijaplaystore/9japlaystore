@@ -14,6 +14,7 @@ import SuccessMark from "shared/SuccessMark/SuccessMark";
 import UserContext from "context/UserContext";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import BgCover from "shared/Avatar/BgCover";
+import { useHistory } from "react-router";
 
 export interface AccountPageProps {
   className?: string;
@@ -21,19 +22,20 @@ export interface AccountPageProps {
 
 export interface ProfileType {
   address_id?: string;
-  profile_image?: any;
-  profile_header_image?: any;
+  profile_image?: null | any;
+  profile_header_image?: null | any;
   username?: string;
-  email?: string;
-  bio?: string;
-  website_link?: string;
-  twitter?: string;
-  instagram?: string;
+  email?: null | string;
+  bio?: null | string;
+  website_link?: null | string;
+  twitter?: null | string;
+  instagram?: null | string;
   verifield?: boolean;
   id?: number;
 }
 
 const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
+  const history = useHistory();
   // thirdweb init
   const address = useAddress() as string;
   const { user }: any = useContext(UserContext);
@@ -47,12 +49,12 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
   const storage = new ThirdwebStorage();
 
   const [profileData, setProfileData] = useState<ProfileType>({
-    bio: "",
-    username: "",
-    email: "",
-    website_link: "",
-    twitter: "",
-    instagram: "",
+    bio: null,
+    username: "Untitled",
+    email: null,
+    website_link: null,
+    twitter: null,
+    instagram: null,
   });
   // const sdk = ThirdwebSDK.fromPrivateKey(
   //   // Your wallet private key (read it in from .env.local file)
@@ -94,11 +96,12 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     };
     setLoading(true);
     axios
-      .patch(url, data, header)
+      .put(url, data)
       .then((res) => {
         console.log(res);
         // toast.dismiss();
         toast.success("Your Profile is uploaded sucessful");
+        history.push("/");
         setLoading(false);
         return;
       })
@@ -115,7 +118,6 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
     const file = e.target.files[0];
     const result = await storage.upload(file);
     const url = storage.resolveScheme(result);
-    console.log(url);
 
     setProfileUrl(url);
 

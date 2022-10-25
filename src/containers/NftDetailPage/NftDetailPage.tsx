@@ -289,9 +289,9 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
             </div>
 
             {/* ---------- 9 ----------  */}
-            <div className="pt-9">
+            {/* <div className="pt-9">
               <TabDetail />
-            </div>
+            </div> */}
           </div>
         )}
       </>
