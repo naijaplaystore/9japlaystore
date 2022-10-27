@@ -3,6 +3,7 @@ import SocialsList1 from "shared/SocialsList1/SocialsList1";
 import { CustomLink } from "data/types";
 import React from "react";
 import { useLocation } from "react-router-dom";
+import TermsModal from "components/TermsModal";
 
 export interface WidgetFooterMenu {
   id: string;
@@ -63,6 +64,10 @@ const widgetMenus: WidgetFooterMenu[] = [
 
 const Footer: React.FC = () => {
   const location = useLocation();
+
+  const [isTerms, setIsTerms] = React.useState(false);
+  const openModalTerms = () => setIsTerms(true);
+  const closeModalTerms = () => setIsTerms(false);
   const renderWidgetMenuItem = (menu: WidgetFooterMenu, index: number) => {
     return (
       <div key={index} className="text-sm">
@@ -100,6 +105,15 @@ const Footer: React.FC = () => {
               </div>
             </div>
             {widgetMenus.map(renderWidgetMenuItem)}
+            <div>
+              <span
+                className="cursor-pointer border-b border-green-400"
+                onClick={openModalTerms}
+              >
+                Terms & condition
+              </span>
+              <TermsModal show={isTerms} onCloseTermsModal={closeModalTerms} />
+            </div>
           </div>
         </div>
       )}
