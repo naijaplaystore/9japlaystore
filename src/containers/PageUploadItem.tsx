@@ -9,7 +9,7 @@ import ButtonSecondary from "shared/Button/ButtonSecondary";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import toast from "react-hot-toast";
 import { useHistory } from "react-router-dom";
-import { COLLECTION_ID } from "../key";
+import { COLLECTION_ID, PRIVATE_KEY } from "../key";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 
 import {
@@ -35,7 +35,7 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
   // Initialize the Thirdweb SDK on the serverside
   const sdk = ThirdwebSDK.fromPrivateKey(
     // Your wallet private key (read it in from .env.local file)
-    "aeeeb76e5199c2968c7baeb61052c09a3d39a6d1e0cd111693a57add6a20ae71",
+    PRIVATE_KEY,
     "mumbai"
   );
 
