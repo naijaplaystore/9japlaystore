@@ -9,7 +9,7 @@ import HeaderFilterSearchPage from "components/HeaderFilterSearchPage";
 import Input from "shared/Input/Input";
 import ButtonCircle from "shared/Button/ButtonCircle";
 import CardNFTMusic from "components/Cards/AllNFT";
-import { useActiveListings, useMarketplace } from "@thirdweb-dev/react";
+import { useActiveListings, useContract } from "@thirdweb-dev/react";
 import { MARKETPLACE_ID } from "key";
 import SearchCards from "components/Cards/SearchCards";
 
@@ -19,9 +19,8 @@ export interface PageSearchProps {
 
 const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
   // Connect your marketplace smart contract here (replace this address)
-  const marketplace = useMarketplace(
-    MARKETPLACE_ID // Your marketplace contract address here
-  );
+  const { contract: marketplace } = useContract(MARKETPLACE_ID, "marketplace");
+
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);
 
@@ -31,7 +30,8 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
   // Search Nfts
   const searchNft = (e: any) => {
     const listing = listings?.filter((data) => {
-      return data.asset.name?.toLowerCase().includes(e.target.value);
+      // return data.asset.name?.toLowerCase().includes(e.target.value);
+      return data.asset.name?.toString().toLowerCase().includes(e.target.value);
     });
     setIsSearch(true);
     e.target.value === "" ? setSearchData([]) : setSearchData(listing);

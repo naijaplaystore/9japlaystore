@@ -11,7 +11,7 @@ import { nanoid } from "@reduxjs/toolkit";
 import RemainingTimeNftCard from "../RemainingTimeNftCard";
 import {
   useActiveListings,
-  useMarketplace,
+  useContract,
   useListings,
   useAddress,
 } from "@thirdweb-dev/react";
@@ -83,16 +83,14 @@ const FvoriteCard: FC<FvoriteCardProps> = ({
     // getFavoriteIds();
   }, [getFavoriteBoooks, getFavoriteIds]);
   // Connect your marketplace smart contract here (replace this address)
-  const marketplace = useMarketplace(
-    MARKETPLACE_ID // Your marketplace contract address here
-  );
+
+  const { contract: marketplace } = useContract(MARKETPLACE_ID, "marketplace");
 
   const { data: listings, isLoading: loadingListings } =
     useListings(marketplace);
 
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">
-     
       {myFavorite.map((listing: any) =>
         listing === undefined ? (
           <CardSkeleton />

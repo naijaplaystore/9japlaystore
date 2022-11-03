@@ -7,7 +7,7 @@ import AvatarDropdown from "./AvatarDropdown";
 import Input from "shared/Input/Input";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import Navigation from "shared/Navigation/Navigation";
-import { useAddress, useListings, useMarketplace } from "@thirdweb-dev/react";
+import { useAddress, useListings, useContract } from "@thirdweb-dev/react";
 import { Link, useHistory } from "react-router-dom";
 // import useSearch from "../../useHooks/useSearch";
 import axios from "axios";
@@ -17,10 +17,11 @@ import { MARKETPLACE_ID } from "key";
 export interface MainNav2LoggedProps {}
 
 const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
-  const marketplace = useMarketplace(
-    MARKETPLACE_ID // Your marketplace contract address here
-  );
+  // const marketplace = useMarketplace(
+  //   MARKETPLACE_ID // Your marketplace contract address here
+  // );
 
+  const { contract: marketplace } = useContract(MARKETPLACE_ID, "marketplace");
   //Connect your wallet
   const address: any = useAddress();
   const history = useHistory();
@@ -46,7 +47,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
   // Search Nfts
   const searchNft = (e: any) => {
     const listing = listings?.filter((data) => {
-      return data.asset.name?.toLowerCase().includes(e.target.value);
+      return data.asset.name?.toString().toLowerCase().includes(e.target.value);
     });
 
     setIsSearch(true);

@@ -7,7 +7,7 @@ import Prices from "../Prices";
 import musicWave from "images/musicWave.png";
 // import AudioForNft from "../AudioForNft";
 import RemainingTimeNftCard from "../RemainingTimeNftCard";
-import { useActiveListings, useMarketplace } from "@thirdweb-dev/react";
+import { useActiveListings, useContract } from "@thirdweb-dev/react";
 import { MARKETPLACE_ID } from "key";
 
 import AudioPlayer from "../AudioPlayer";
@@ -26,9 +26,10 @@ const ActiveList: FC<ActiveListProps> = ({
   featuredImage = nftsAbstracts[18],
 }) => {
   // Connect your marketplace smart contract here (replace this address)
-  const marketplace = useMarketplace(
-    MARKETPLACE_ID // Your marketplace contract address here
-  );
+  // const marketplace = useMarketplace(
+  //   MARKETPLACE_ID // Your marketplace contract address here
+  // );
+  const { contract: marketplace } = useContract(MARKETPLACE_ID, "marketplace");
 
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);

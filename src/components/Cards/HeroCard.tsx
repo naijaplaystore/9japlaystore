@@ -6,7 +6,7 @@ import LikeButton from "../LikeButton";
 import musicWave from "images/musicWave.png";
 import AudioPlayer from "../AudioPlayer";
 import RemainingTimeNftCard from "../RemainingTimeNftCard";
-import { useActiveListings, useMarketplace } from "@thirdweb-dev/react";
+import { useActiveListings, useContract } from "@thirdweb-dev/react";
 import { MARKETPLACE_ID } from "key";
 
 import { AudioPlayerProvider } from "react-use-audio-player";
@@ -24,9 +24,10 @@ const HeroCard: FC<HeroCardProps> = ({
   featuredImage = nftsAbstracts[18],
 }) => {
   // Connect your marketplace smart contract here (replace this address)
-  const marketplace = useMarketplace(
-    MARKETPLACE_ID // Your marketplace contract address here
-  );
+  // const marketplace = useMarketplace(
+  //   MARKETPLACE_ID // Your marketplace contract address here
+  // );
+  const { contract: marketplace } = useContract(MARKETPLACE_ID, "marketplace");
 
   const { data: listings } = useActiveListings(marketplace);
 
@@ -71,7 +72,7 @@ const HeroCard: FC<HeroCardProps> = ({
 
             {/* LIKE AND AVATARS */}
             <div className="absolute top-2.5 left-2.5 z-10 flex items-center space-x-2">
-              <LikeButton className=" !h-9" nftId={listing.id.toNumber()} />
+              <LikeButton className=" !h-9" nftId={listing.id} />
             </div>
 
             {/* ----TIME--- */}
@@ -94,7 +95,7 @@ const HeroCard: FC<HeroCardProps> = ({
               >
                 <div className="flex items-center justify-between">
                   <h2 className={`text-lg font-semibold`}>
-                    {listing.name} #{listing.id.toNumber()}
+                    {listing.name} #{listing.id}
                   </h2>
                   <div className="flex -space-x-1.5 ">
                     {/* <button
@@ -120,7 +121,7 @@ const HeroCard: FC<HeroCardProps> = ({
             </div>
 
             <Link
-              to={`/nft-detailt/${listing.id.toNumber()}`}
+              to={`/nft-detailt/${listing.id}`}
               className="absolute inset-0 "
             ></Link>
           </div>

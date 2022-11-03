@@ -11,6 +11,7 @@ import {
   useActiveListings,
   useMarketplace,
   useNFTCollection,
+  useContract,
   useNFTs,
   useAddress,
   useOwnedNFTs,
@@ -36,21 +37,22 @@ const OwnerNFT: FC<OwnerProps> = ({
 }) => {
   // Connect your marketplace smart contract here (replace this address)
   const address = useAddress();
-  const marketplace = useMarketplace(
-    MARKETPLACE_ID // Your marketplace contract address here
-  );
+  // const marketplace = useMarketplace(
+  //   MARKETPLACE_ID // Your marketplace contract address here
+  // );
+  const { contract } = useContract(COLLECTION_ID, "nft-collection");
+  const { contract: marketplace } = useContract(MARKETPLACE_ID, "marketplace");
 
-  const nftCollection = useNFTCollection(COLLECTION_ID);
+  // const nftCollection = useNFTCollection(COLLECTION_ID);
   // const { data: nfts, isLoading } = useNFTs(nftCollection);
   // const { data: listings, isLoading: loadingListings } =
   //   useActiveListings(marketplace);
 
-  const { data: ownedNFTs, isLoading } = useOwnedNFTs(
-    nftCollection,
-    userAddress
-  );
+  const { data: ownedNFTs, isLoading } = useOwnedNFTs(contract, userAddress);
 
   // const sold = listings?.filter((listing) => listing.sold);
+
+  // console.log(ownedNFTs);
 
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10 ">
@@ -59,11 +61,11 @@ const OwnerNFT: FC<OwnerProps> = ({
       ) : (
         <>
           {ownedNFTs === undefined && <p>No NFT</p>}
-          {ownedNFTs?.map((nft: any) => (
+          {ownedNFTs?.map((nft) => (
             <div
               className={` relative group  ${className}`}
               data-nc-id="CardNFTMusic"
-              key={nft.id}
+              key={nft.metadata.id}
             >
               {/* AUDIO MEDiA */}
 
@@ -101,7 +103,7 @@ const OwnerNFT: FC<OwnerProps> = ({
                 >
                   <div className="flex items-center justify-between">
                     <h2 className={`text-sm font-semibold`}>
-                      {nft.metadata.name} #{nft.metadata.id.toNumber()}
+                      {nft.metadata.name} #{nft.metadata.id}
                     </h2>
                     <div className="flex -space-x-1.5 ">
                       <div>

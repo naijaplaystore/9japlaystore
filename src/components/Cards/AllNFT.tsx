@@ -11,7 +11,7 @@ import { nanoid } from "@reduxjs/toolkit";
 import RemainingTimeNftCard from "../RemainingTimeNftCard";
 import {
   useActiveListings,
-  useMarketplace,
+  useContract,
   useAddress,
 } from "@thirdweb-dev/react";
 import { MARKETPLACE_ID } from "key";
@@ -45,9 +45,10 @@ const CardNFTMusic: FC<CardNFTMusicProps> = ({
   featuredImage = nftsAbstracts[18],
 }) => {
   // Connect your marketplace smart contract here (replace this address)
-  const marketplace = useMarketplace(
-    MARKETPLACE_ID // Your marketplace contract address here
-  );
+  // const marketplace = useMarketplace(
+  //   MARKETPLACE_ID // Your marketplace contract address here
+  // );
+  const { contract: marketplace } = useContract(MARKETPLACE_ID, "marketplace");
 
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);
