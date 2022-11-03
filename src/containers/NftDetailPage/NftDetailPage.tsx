@@ -22,11 +22,12 @@ import { MARKETPLACE_ID } from "key";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import {
   useListing,
-  useMarketplace,
+  // useMarketplace,
   useAddress,
   useNetwork,
   useNetworkMismatch,
   ChainId,
+  useContract,
 } from "@thirdweb-dev/react";
 import DetailCard from "components/Cards/DetailCard";
 import toast from "react-hot-toast";
@@ -47,7 +48,8 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
   const history = useHistory();
   const [user, setUser] = React.useState<any>(null);
 
-  const marketplace = useMarketplace(MARKETPLACE_ID);
+  // const marketplace = useMarketplace(MARKETPLACE_ID);
+  const { contract: marketplace } = useContract(MARKETPLACE_ID, "marketplace");
   const address = useAddress();
   const isOnWrongNetwork = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
@@ -63,7 +65,6 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
   //     history.push("/page-search");
   //   }, 500);
   // }
-
   const buyNFT = async (id: any) => {
     if (isOnWrongNetwork) {
       switchNetwork && switchNetwork(ChainId.Mumbai);
@@ -80,7 +81,7 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
 
       try {
         await marketplace?.buyoutListing(id, 1);
-        await marketplace?.direct.cancelListing(id);
+        // await marketplace?.direct.cancelListing(id);
         setIsLoading(false);
         toast.dismiss();
         history.push("/");
@@ -145,7 +146,7 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
                 <LikeSaveBtns />
               </div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold">
-                {`${listings?.asset.name} #${listings?.asset.id._hex}`}
+                {`${listings?.asset.name} #${listings?.asset.id}`}
               </h2>
 
               {/* ---------- 4 ----------  */}
@@ -337,7 +338,7 @@ const NftDetailPage: FC<NftDetailPageProps> = ({
             ) : (
               <AccordionInfo
                 description={listings?.asset.description}
-                tokenId={listings?.asset.id._hex}
+                tokenId={listings?.asset.id}
                 contractAddress={`${listings?.assetContractAddress.slice(
                   0,
                   6

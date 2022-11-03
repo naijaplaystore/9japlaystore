@@ -17,6 +17,7 @@ import {
   useNetwork,
   useNetworkMismatch,
   ChainId,
+  useContract,
 } from "@thirdweb-dev/react";
 import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
 
@@ -65,16 +66,17 @@ const ListNFT: FC<ListNFTProps> = ({ className = "" }) => {
   const [listing, setListing] = useState<string>("auctionlisting");
   const [loading, setLoading] = useState(false);
 
+  console.log(nftID);
   // Use the NFTs component to get the list of NFTs
 
-  const nftCollection = useNFTCollection(COLLECTION_ID);
-  const { data: nfts, isLoading } = useNFTs(nftCollection);
+  const { contract } = useContract(COLLECTION_ID, "nft-collection");
+  const { contract: marketplace } = useContract(MARKETPLACE_ID, "marketplace");
+
+  // const nftCollection = useNFTCollection(COLLECTION_ID);
+  const { data: nfts, isLoading } = useNFTs(contract);
   // console.log(nfts);
   const address = useAddress();
-  // Connect to our marketplace contract via the useMarketplace hook
-  const marketplace = useMarketplace(
-    MARKETPLACE_ID // Your marketplace contract address here
-  );
+
   const networkMismatch = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
 
@@ -166,7 +168,7 @@ const ListNFT: FC<ListNFTProps> = ({ className = "" }) => {
           //  router.push(`/`);
           console.log("success");
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error(error);
       }
     }
@@ -224,7 +226,7 @@ const ListNFT: FC<ListNFTProps> = ({ className = "" }) => {
                   }
                     relative flex-shrink-0 w-44 rounded-xl border border-neutral-200 dark:border-neutral-700 px-6 py-5 cursor-pointer flex focus:outline-none `
                             }
-                            onClick={() => setNftID(nft.metadata.id._hex)}
+                            onClick={() => setNftID(nft.metadata.id)}
                           >
                             {({ active, checked }) => (
                               <>

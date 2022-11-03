@@ -18,6 +18,7 @@ import {
   useSigner,
   useAddress,
   ChainId,
+  useContract,
 } from "@thirdweb-dev/react";
 const storage = new ThirdwebStorage();
 export interface PageUploadItemProps {
@@ -28,6 +29,7 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
   // dynamic routing
   const history = useHistory();
   // Thirdweb initiation
+  const { contract: collection } = useContract(COLLECTION_ID, "nft-collection");
   const isOnWrongNetwork = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
   const address = useAddress();
@@ -40,10 +42,6 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
   );
 
   // Load the NFT Collection via it's contract address using the SDK
-  const nftCollection2 = sdk.getNFTCollection(
-    // Replace this with your NFT Collection contract address
-    COLLECTION_ID
-  );
 
   const [data, setData] = useState({
     name: "",
@@ -86,37 +84,37 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
 
   const mintNftMusic = async () => {
     setIsLoading(true);
-    if (isOnWrongNetwork) {
-      switchNetwork && switchNetwork(ChainId.Mumbai);
-      return;
-    }
+    const nftCollection2 = await sdk.getContract(
+      // Replace this with your NFT Collection contract address
+      COLLECTION_ID,
+      "nft-collection"
+    );
 
     const signedPayload = await nftCollection2.signature.generate({
       to: address,
       metadata: {
-        name: data.name,
-        image: fileUrl,
-        audio: audioUrl,
-        description: data.description,
-        properties: {
-          // Add any properties you want to store on the NFT
-        },
+        name: data.name as string,
+        image: fileUrl as string,
+        audio: audioUrl as string,
+        description: data.description as string,
       },
     });
-    await nftCollection2.signature.mint(signedPayload);
 
     try {
-      toast.dismiss();
-      toast.success("You sucessful mint your music !");
+      const nft = await nftCollection2?.signature.mint(signedPayload);
+      toast.success("Minted succesfully!");
       setIsLoading(false);
+      toast.dismiss();
       listing === "listNFT" ? history.push("/") : history.push("/listNFT");
+      console.log(nft);
     } catch (err) {
       console.log(err);
     }
   };
 
   const uploadNFT = () => {
-    if (!data.name || !data.description || !fileUrl || !audioUrl) {
+    //  || !fileUrl || !audioUrl
+    if (!data.name || !data.description) {
       toast.error("Please fill all the fields");
     } else {
       mintNftMusic();
