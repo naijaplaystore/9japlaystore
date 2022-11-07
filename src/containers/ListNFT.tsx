@@ -144,7 +144,7 @@ const ListNFT: FC<ListNFTProps> = ({ className = "" }) => {
       try {
         // Ensure user is on the correct network
         if (networkMismatch) {
-          switchNetwork && switchNetwork(ChainId.Polygon);
+          switchNetwork && switchNetwork(ChainId.Mumbai);
           console.log("wrong network");
         }
 
