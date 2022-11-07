@@ -22,7 +22,7 @@ import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 // const REACT_APP_MUMBAI_RPC = "https://rpc-mumbai.maticvigil.com" as string;
 // Private RPC Network
 const REACT_APP_MUMBAI_RPC =
-  "https://polygon-mumbai.infura.io/v3/752bc8c08f3f44fab98842c4cec921ca" as string;
+  "https://polygon-mainnet.infura.io/v3/752bc8c08f3f44fab98842c4cec921ca" as string;
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -32,9 +32,9 @@ root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ThirdwebProvider
-        desiredChainId={ChainId.Mumbai}
+        desiredChainId={ChainId.Polygon}
         chainRpc={{
-          [ChainId.Mumbai]: REACT_APP_MUMBAI_RPC,
+          [ChainId.Polygon]: REACT_APP_MUMBAI_RPC,
         }}
       >
         <App />
