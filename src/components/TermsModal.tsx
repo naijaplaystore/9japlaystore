@@ -12,7 +12,7 @@ const TermsData = [
   {
     heading: "  TERMS OF SERVICE",
     desc: ` NaijaPlayStore is a Nigerian music streaming service, registered under
-          the corporate affairs commission (CAC) of Nigeria BN - 3610875. Before using the
+          the corporate affairs commission (CAC) of Nigeria. Before using the
           services, carefully read the terms. You accept the terms by using the
           services in any manner. If you do not agree to the Terms, do not use
           the services.`,
@@ -55,7 +55,7 @@ const TermsData = [
   {
     heading: "Age Limit",
     desc: `Collection of personal data from visitors who are younger than 13 is highly prohibited.
-If it comes to our notice that the data of a child under 13, is on our website we will make every effort to erase the data as soon as we can. Please do not hesitate to let us know if you observe any suspicious activity.`,
+If it comes to our notice that the data of a child under 13, is on our website`,
   },
 ];
 
@@ -75,10 +75,6 @@ const TermsModal: FC<TermsModalProps> = ({ show, onCloseTermsModal }) => {
             <span className="text-sm">{data.desc}</span>
           </>
         ))}
-        <span>
-          For questions, answers, inquires, complaints, reports please contact
-          us through our information on the website
-        </span>
 
         <div className="mt-4 space-x-3">
           {/* <ButtonPrimary onClick={handleClickSubmitForm} type="submit">

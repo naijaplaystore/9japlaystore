@@ -110,7 +110,7 @@ const Footer: React.FC = () => {
                 className="cursor-pointer border-b border-green-400"
                 onClick={openModalTerms}
               >
-                Terms & conditions
+                Terms & condition
               </span>
               <TermsModal show={isTerms} onCloseTermsModal={closeModalTerms} />
             </div>

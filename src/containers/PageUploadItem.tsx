@@ -29,8 +29,8 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
   // dynamic routing
   const history = useHistory();
   // Thirdweb initiation
-  // const { contract: collection } = useContract(COLLECTION_ID, "nft-collection");
-  // const isOnWrongNetwork = useNetworkMismatch();
+  const { contract: collection } = useContract(COLLECTION_ID, "nft-collection");
+  const isOnWrongNetwork = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
   const address = useAddress();
 
@@ -38,17 +38,11 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
   const sdk = ThirdwebSDK.fromPrivateKey(
     // Your wallet private key (read it in from .env.local file)
     PRIVATE_KEY,
-    "polygon"
-  );
-
-  const { contract: nftCollection } = useContract(
-    // Replace this with your NFT Collection contract address
-    COLLECTION_ID,
-    "nft-collection"
+    "mumbai"
   );
 
   // Load the NFT Collection via it's contract address using the SDK
-  const networkMismatch = useNetworkMismatch();
+
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -101,19 +95,17 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
       metadata: {
         name: data.name as string,
         image: fileUrl as string,
-        price: 0 as number,
         audio: audioUrl as string,
         description: data.description as string,
       },
     });
 
-    console.log(signedPayload);
     try {
-      const nft = await nftCollection?.signature.mint(signedPayload);
+      const nft = await nftCollection2?.signature.mint(signedPayload);
       toast.success("Minted succesfully!");
       setIsLoading(false);
       toast.dismiss();
-      listing === "listNFT" ? history.push("/list-NFT") : history.push("/");
+      listing === "listNFT" ? history.push("/") : history.push("/listNFT");
       console.log(nft);
     } catch (err) {
       console.log(err);
@@ -122,11 +114,6 @@ const PageUploadItem: FC<PageUploadItemProps> = ({ className = "" }) => {
 
   const uploadNFT = () => {
     //  || !fileUrl || !audioUrl
-    if (networkMismatch) {
-      switchNetwork && switchNetwork(ChainId.Polygon);
-      console.log("wrong network");
-    }
-
     if (!data.name || !data.description) {
       toast.error("Please fill all the fields");
     } else {
